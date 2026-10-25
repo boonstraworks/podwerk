@@ -44,6 +44,10 @@ themes keep working.
   the RSS feed.
 * Undefined `customtags` warning when uploading or editing an episode.
 * "session already active" notice on the first visit after an upgrade.
+* Setup crashed (`getmime()` undefined) when `media/` already contained
+  episodes.
+* The admin dashboard no longer frames the original news page, which no
+  longer exists.
 
 ### Security
 
@@ -56,6 +60,12 @@ themes keep working.
 * Cryptographically secure random tokens, timing-safe token checks and a
   new session ID on login.
 * Episode XML and default theme output are escaped properly.
+* CVE-2023-53920 (stored XSS through the podcast title): escaped in the
+  default theme, as are episode titles and category names.
+* CVE-2023-53919 (stored XSS through the freebox): freebox content and
+  episode descriptions go through an allowlist HTML sanitizer.
+* CVE-2023-53899 (blind SSRF through `shortdesc` on upload): text can no
+  longer break out of the CDATA sections in episode files.
 
 ## [3.2.9] - 2022-11-03
 
