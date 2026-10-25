@@ -8,6 +8,8 @@
 #
 # This is Free Software released under the GNU/GPL License.
 ############################################################
+require_once __DIR__ . '/podcastindex.php';
+
 function pingWebSub()
 {
     // Get the global config
@@ -49,7 +51,7 @@ function pingWebSub()
         return false;
     } finally {
         if ($handle) {
-            curl_close($handle);
+            closeCurlHandle($handle);
         }
     }
 }
@@ -64,16 +66,14 @@ function pingPodcastIndex()
         return;
     }
 
-    // Set up our client
-    require_once('../vendor/autoload.php');
-    $client = new PodcastIndex\Client([
-        'app' => 'PodcastIndex/' . $version,
-        'key' => $config['pi_api_key'],
-        'secret' => $config['pi_api_secret']
-    ]);
-
     try {
-        $client->get('hub/pubnotify', array('id' => $config['pi_podcast_id']));
+        podcastIndexGet(
+            'hub/pubnotify',
+            array('id' => $config['pi_podcast_id']),
+            $config['pi_api_key'],
+            $config['pi_api_secret'],
+            'PodcastGenerator/' . $version
+        );
     } catch (Exception $e) {
         // write a warning to stderr, but don't blow anything up
         error_log($e, 0);

@@ -11,13 +11,20 @@ require 'checkLogin.php';
 require '../core/include_admin.php';
 
 if (isset($_GET['edit'])) {
+    checkToken();
+    $allowedKeys = array('pi_api_key', 'pi_api_secret', 'pi_podcast_id', 'websub_server');
     foreach ($_POST as $key => $value) {
-        if ($key[0] != '_') {
+        if (in_array($key, $allowedKeys, true)) {
+            if ($key == 'pi_podcast_id') {
+                $value = (int) $value;
+            }
             updateConfig('../config.php', $key, $value);
         } elseif ($key == '_register') {
             $register = $value;
         }
     }
+    // Pick up freshly entered API credentials before registering
+    $config = getConfig('../config.php');
 
     if (isset($register)) {
         switch ($register) {
@@ -27,22 +34,23 @@ if (isset($_GET['edit'])) {
                     $error = _('Already registered with Podcast Index');
                     goto error;
                 }
-                require_once('../vendor/autoload.php');
+                require_once('../core/podcastindex.php');
                 try {
-                    $client = new PodcastIndex\Client([
-                        'app' => 'PodcastGenerator/' . $version,
-                        'key' => $config['pi_api_key'],
-                        'secret' => $config['pi_api_secret']
-                    ]);
-                    /** @var PodcastIndex\Response */
-                    $response = $client->add->byFeedUrl($config['url'] . $config['feed_dir'] . 'feed.xml');
-                    if ($response->code() >= 400) {
-                        $error = _('API error') . ': ' . $response->reason();
+                    $response = podcastIndexGet(
+                        'add/byfeedurl',
+                        array('url' => $config['url'] . $config['feed_dir'] . 'feed.xml'),
+                        $config['pi_api_key'],
+                        $config['pi_api_secret'],
+                        'PodcastGenerator/' . $version
+                    );
+                    $result = $response['json'];
+                    if ($response['code'] >= 400) {
+                        $error = _('API error') . ': '
+                            . (isset($result->description) ? $result->description : 'HTTP ' . $response['code']);
                         goto error;
                     }
-                    $result = $response->json();
-                    if ($result->status && $result->status != 'false' && $result->feedId) {
-                        updateConfig('../config.php', 'pi_podcast_id', $result->feedId);
+                    if ($result && $result->status && $result->status != 'false' && $result->feedId) {
+                        updateConfig('../config.php', 'pi_podcast_id', (int) $result->feedId);
                     }
                 }
                 catch (Exception $e) {
@@ -86,9 +94,10 @@ if (isset($_GET['edit'])) {
         <h1><?= _('Manage integrations') ?></h1>
         <?php
         if (isset($error)) {
-            echo '<p style="color: red;"><strong>' . $error . '</strong></p>';
+            echo '<p style="color: red;"><strong>' . htmlspecialchars($error) . '</strong></p>';
         } ?>
         <form action="pg_integrations.php?edit=1" method="POST">
+            <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
             <section>
                 <?php //# 'Podcast Index' is a proper name. ?>
                 <h2><?= _('Podcast Index'); ?>:</h2>
@@ -108,7 +117,7 @@ if (isset($_GET['edit'])) {
                     <?= _('Enter the ID number for your show in Podcast Index or click "Add Show" to add your show to the index') ?>
                 </small>
                 <br>
-                <input type="text" id="pi_podcast_id" name="pi_podcast_id" value="<?= $config['pi_podcast_id'] ?>">
+                <input type="text" id="pi_podcast_id" name="pi_podcast_id" value="<?= (int) $config['pi_podcast_id'] ?>">
 
                 <?php if (!$config['pi_podcast_id']) { ?>
                     <button type="submit" name="_register" value="podcast-index" class="btn btn-sm btn-secondary">
