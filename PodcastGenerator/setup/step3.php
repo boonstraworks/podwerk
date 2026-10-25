@@ -40,7 +40,7 @@ if (isset($_GET["create"])) {
 
     if ($success) {
         // load configuration before any other post-setup work
-        require '../core/misc/configsystem.php';
+        require_once '../core/misc/configsystem.php';
         global $config;
         $config = getConfig('../config.php');
 

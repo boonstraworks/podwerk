@@ -9,6 +9,13 @@
 # This is Free Software released under the GNU/GPL License.
 ############################################################
 
+// Makes text safe to place inside <![CDATA[ ... ]]>: a literal "]]>" would
+// end the section early, so it is split over two CDATA sections.
+function cdataSafe($text)
+{
+    return str_replace(']]>', ']]]]><![CDATA[>', (string) $text);
+}
+
 function itunes_category($categoryName)
 {
     $cat_seg = explode(':', $categoryName, 2);
@@ -86,13 +93,13 @@ function generateRssItem($file, $uploadDir, $uploadUrl, $imagesDir, $imagesUrl)
         $item .= $TAB . '<podcast:season>' . $file['data']->episode->seasonNumPG . '</podcast:season>' . $LR;
     }
 
-    $item .= $TAB . '<itunes:subtitle><![CDATA[' . $file['data']->episode->shortdescPG . ']]></itunes:subtitle>' . $LR;
+    $item .= $TAB . '<itunes:subtitle><![CDATA[' . cdataSafe($file['data']->episode->shortdescPG) . ']]></itunes:subtitle>' . $LR;
     if (isset($file['data']->episode->longdescPG) && trim($file['data']->episode->longdescPG) != "") {
-        $item .= $TAB . '<description><![CDATA[' . $file['data']->episode->longdescPG . ']]></description>' . $LR;
+        $item .= $TAB . '<description><![CDATA[' . cdataSafe($file['data']->episode->longdescPG) . ']]></description>' . $LR;
     } else {
-        $item .= $TAB . '<description><![CDATA[' . $file['data']->episode->shortdescPG . ']]></description>' . $LR;
+        $item .= $TAB . '<description><![CDATA[' . cdataSafe($file['data']->episode->shortdescPG) . ']]></description>' . $LR;
     }
-    $item .= $TAB . '<itunes:summary><![CDATA[' . $file['data']->episode->shortdescPG . ']]></itunes:summary>' . $LR;
+    $item .= $TAB . '<itunes:summary><![CDATA[' . cdataSafe($file['data']->episode->shortdescPG) . ']]></itunes:summary>' . $LR;
 
     $item .= $TAB . '<link>' . $config['url'] . '?' . $link . '=' . $encodedFilename . '</link>' . $LR;
     $item .= $TAB . '<enclosure url="' . htmlspecialchars($enclosureUrl) . '" length="'

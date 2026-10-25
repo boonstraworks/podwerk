@@ -11,7 +11,10 @@
 require 'core/include.php';
 // Only work when cronAutoIndex is enabled
 if (isset($_GET['key']) && $config['cronAutoIndex'] == "1") {
-    if ($_GET['key'] == $config['installationKey']) {
+    if (
+        is_string($_GET['key']) && $config['installationKey'] != ''
+        && hash_equals($config['installationKey'], $_GET['key'])
+    ) {
         indexEpisodes($config);
         generateRSS();
     }

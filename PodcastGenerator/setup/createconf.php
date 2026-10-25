@@ -9,6 +9,7 @@
 # This is Free Software released under the GNU/GPL License.
 ############################################################
 session_start();
+require_once '../core/misc/configsystem.php';
 
 function randomString($length = 8)
 {
@@ -16,7 +17,7 @@ function randomString($length = 8)
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
     return $randomString;
 }
@@ -40,11 +41,11 @@ function createconf($username, $password)
 
 \$installationKey = '$installationKey';
 
-\$scriptlang = '" . $_SESSION['lang'] . "';
+\$scriptlang = " . configLiteral($_SESSION['lang']) . ";
 
-\$url = '$url';
+\$url = " . configLiteral($url) . ";
 
-\$absoluteurl = '$absoluteurl'; // The location on the server
+\$absoluteurl = " . configLiteral($absoluteurl) . "; // The location on the server
 
 \$theme_path = 'themes/default/';
 
@@ -120,7 +121,7 @@ function createconf($username, $password)
 
 \$explicit_podcast = 'no'; //does your podcast contain explicit language? ('yes' or 'no')
 
-\$users_json = '{\\\"" . $username . "\\\": \\\"" . str_replace("\$", "\\\$", $password) . "\\\"}';
+\$users_json = " . configLiteral(json_encode(array($username => $password))) . ";
 
 #####################
 # WebSub

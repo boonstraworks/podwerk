@@ -37,7 +37,7 @@ if (isset($_GET['edit'])) {
     }
 
     foreach ($_POST as $key => $value) {
-        if ($key == 'custom_tags') {
+        if ($key == 'custom_tags' || isProtectedConfigKey($key)) {
             continue;
         } else {
             updateConfig('../config.php', $key, $value);

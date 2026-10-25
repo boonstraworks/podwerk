@@ -344,8 +344,8 @@ function indexEpisodes($_config)
         <episode>
             <guid>' . htmlspecialchars($_config['url'] . "?" . $link . "=" . basename($fname)) . '</guid>
             <titlePG>' . htmlspecialchars($title, ENT_NOQUOTES) . '</titlePG>
-            <shortdescPG><![CDATA[' . $comment . ']]></shortdescPG>
-            <longdescPG><![CDATA[' . $comment . ']]></longdescPG>
+            <shortdescPG><![CDATA[' . cdataSafe($comment) . ']]></shortdescPG>
+            <longdescPG><![CDATA[' . cdataSafe($comment) . ']]></longdescPG>
             <imgPG></imgPG>
             <categoriesPG>
                 <category1PG>uncategorized</category1PG>

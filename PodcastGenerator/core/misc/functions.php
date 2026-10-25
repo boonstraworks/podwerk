@@ -84,14 +84,17 @@ function randomString($length = 8)
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
     return $randomString;
 }
 
 function checkToken()
 {
-    if (!isset($_POST['token']) || ($_POST['token'] != $_SESSION['token'])) {
+    if (
+        !isset($_POST['token']) || !isset($_SESSION['token'])
+        || !is_string($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])
+    ) {
         die("Potential CSRF attack");
     }
 }

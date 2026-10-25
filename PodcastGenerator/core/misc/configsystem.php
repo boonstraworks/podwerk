@@ -8,6 +8,50 @@
 #
 # This is Free Software released under the GNU/GPL License.
 ############################################################
+// Turns a value into a PHP literal that is safe to write into config.php.
+// Strings are single-quoted with \ and ' escaped. Line breaks are replaced
+// by spaces, because the config file is parsed line by line.
+function configLiteral($value)
+{
+    if (is_int($value) || is_float($value)) {
+        return (string) $value;
+    }
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+    if (!is_scalar($value)) {
+        $value = '';
+    }
+    $value = str_replace(array("\r\n", "\r", "\n"), ' ', (string) $value);
+    return "'" . str_replace(array('\\', "'"), array('\\\\', "\\'"), $value) . "'";
+}
+
+// Reverses the escaping of configLiteral(). \" and \$ are unescaped as well,
+// because config files written by Podcast Generator 3.2.9 and older contain
+// those sequences (for example in users_json).
+function configUnescape($value)
+{
+    return preg_replace('/\\\\([\\\\\'"$])/', '$1', $value);
+}
+
+// Config keys that must never be changed through a settings form
+function isProtectedConfigKey($key)
+{
+    return in_array($key, array(
+        'podcastgen_version',
+        'first_installation',
+        'installationKey',
+        'url',
+        'absoluteurl',
+        'theme_path',
+        'upload_dir',
+        'img_dir',
+        'feed_dir',
+        'indexfile',
+        'users_json',
+    ), true);
+}
+
 // This function updates the config
 function updateConfig($path, $key, $value, $eval_null = false)
 {
@@ -28,25 +72,19 @@ function updateConfig($path, $key, $value, $eval_null = false)
             $lines[$i] = substr($lines[$i], 1);
         }
 
-        // Get the actual key
-        if (substr($lines[$i], 1, strlen($key)) == $key) {
-            // Get the comment first
-            $comment = strpos($lines[$i], ';');
-            if ($comment) {
-                $comment = substr($lines[$i], $comment);
-                // Cut away semicolon
-                $comment = substr($comment, 1);
+        // Get the actual key (exact match, not just a common prefix)
+        if (strpos($lines[$i], '$' . $key . ' = ') === 0) {
+            // Keep the trailing comment, if the current value can be parsed
+            $comment = '';
+            $literal = '(?:\'(?:[^\'\\\\]|\\\\.)*\'|"[^"]*"|[^\'";]*)';
+            if (preg_match('/^\$' . preg_quote($key, '/') . ' = ' . $literal . ';(.*)$/', $lines[$i], $match)) {
+                $comment = $match[1];
             }
             $lines[$i] = '$' . $key . ' = ';
-            // Add quotes if it is a string
-            if (gettype($value) == 'string') {
-                if ($value == 'null' && $eval_null) {
-                    $lines[$i] .= "'';";
-                } else {
-                    $lines[$i] .= "'" . $value . "';";
-                }
+            if ($value === 'null' && $eval_null) {
+                $lines[$i] .= "'';";
             } else {
-                $lines[$i] .= $value . ';';
+                $lines[$i] .= configLiteral($value) . ';';
             }
             // Append comment
             $lines[$i] .= $comment;
@@ -88,6 +126,13 @@ function getConfig($path = 'config.php')
             $lines[$i] = substr($lines[$i], 1);
         }
 
+        // Strings written by configLiteral()
+        if (preg_match('/^\$(.+?) = \'((?:[^\'\\\\]|\\\\.)*)\';/', $lines[$i], $quoted)) {
+            $configmap[$quoted[1]] = configUnescape($quoted[2]);
+            continue;
+        }
+
+        // Legacy parsing, for lines the strict pattern above does not match
         preg_match('/\$(.+?) = ["\'](.+?)?["\'];/', $lines[$i], $strout);    // Get all strings
         preg_match('/\$(.+?) = ([^"\']+);/', $lines[$i], $nonstr); // Get all non strings
         if (count($nonstr) == 3) {
@@ -120,7 +165,7 @@ function getConfig($path = 'config.php')
     return $configmap;
 }
 
-function unsetConfig($path = "config.php", $key)
+function unsetConfig($path, $key)
 {
     $content = file_get_contents($path);
     $lines = explode("\n", $content);

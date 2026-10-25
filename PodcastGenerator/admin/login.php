@@ -30,6 +30,8 @@ if (isset($_GET['login'])) {
         goto esc;
     }
     if (checkLogin($_POST['username'], $_POST['password'])) {
+        // New session ID on login, against session fixation
+        session_regenerate_id(true);
         $_SESSION['username'] = $_POST['username'];
         $_SESSION['token'] = randomString(32);
         header('Location: index.php');

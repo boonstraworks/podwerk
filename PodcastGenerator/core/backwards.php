@@ -11,10 +11,22 @@
 
 function backwards_3_1_to_3_2_9($absoluteurl)
 {
-    session_start();
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
     session_destroy();
     global $config;
     global $version;
+
+    // 3.2.9 and later 3.2.x releases share the same config format, so only
+    // the version number has to be updated
+    if (
+        version_compare($config['podcastgen_version'], '3.2.9', '>=')
+        && version_compare($config['podcastgen_version'], $version, '<')
+    ) {
+        updateConfig($absoluteurl . 'config.php', 'podcastgen_version', $version);
+        return;
+    }
 
     // Quit if version is not 3.1.x or 3.2
     if (
@@ -91,106 +103,106 @@ function backwards_3_1_to_3_2_9($absoluteurl)
     }
 
     $config_php = "<?php
-\$podcastgen_version = '" . $version . "'; // Version
+\$podcastgen_version = " . configLiteral($version) . "; // Version
 
-\$first_installation = " . $config['first_installation'] . ";
+\$first_installation = " . configLiteral($config['first_installation']) . ";
 
-\$installationKey = '" . $config['installationKey'] . "';
+\$installationKey = " . configLiteral($config['installationKey']) . ";
 
-\$scriptlang = '" . $config['scriptlang'] . "';
+\$scriptlang = " . configLiteral($config['scriptlang']) . ";
 
-\$url = '" . $config['url'] . "';
+\$url = " . configLiteral($config['url']) . ";
 
-\$absoluteurl = '" . $config['absoluteurl'] . "'; // The location on the server
+\$absoluteurl = " . configLiteral($config['absoluteurl']) . "; // The location on the server
 
-\$theme_path = '" . $config['theme_path'] . "';
+\$theme_path = " . configLiteral($config['theme_path']) . ";
 
-\$upload_dir = '" . $config['upload_dir'] . "'; // 'media/' the default folder (Trailing slash required). Set chmod 755
+\$upload_dir = " . configLiteral($config['upload_dir']) . "; // 'media/' the default folder (Trailing slash required). Set chmod 755
 
-\$img_dir = '" . $config['img_dir'] . "'; // (Trailing slash required). Set chmod 755
+\$img_dir = " . configLiteral($config['img_dir']) . "; // (Trailing slash required). Set chmod 755
 
-\$feed_dir = '" . $config['feed_dir'] . "'; // Where to create feed.xml (empty value = root directory). Set chmod 755
+\$feed_dir = " . configLiteral($config['feed_dir']) . "; // Where to create feed.xml (empty value = root directory). Set chmod 755
 
-\$max_recent = " . $config['max_recent'] . "; // How many file to show in the home page
+\$max_recent = " . configLiteral($config['max_recent']) . "; // How many file to show in the home page
 
-\$recent_episode_in_feed = '" . $config['recent_episode_in_feed'] . "'; // How many file to show in the XML feed (1,2,5 etc.. or 'All')
+\$recent_episode_in_feed = " . configLiteral($config['recent_episode_in_feed']) . "; // How many file to show in the XML feed (1,2,5 etc.. or 'All')
 
-\$episodeperpage = " . $config['episodeperpage'] . ";
+\$episodeperpage = " . configLiteral($config['episodeperpage']) . ";
 
-\$enablestreaming = '" . $config['enablestreaming'] . "'; // Enable mp3 streaming? ('yes' or 'no')
+\$enablestreaming = " . configLiteral($config['enablestreaming']) . "; // Enable mp3 streaming? ('yes' or 'no')
 
-\$freebox = '" . $config['freebox'] . "'; // enable freely customizable box
+\$freebox = " . configLiteral($config['freebox']) . "; // enable freely customizable box
 
-\$enablepgnewsinadmin = '" . $config['enablepgnewsinadmin'] . "';
+\$enablepgnewsinadmin = " . configLiteral($config['enablepgnewsinadmin']) . ";
 
-\$strictfilenamepolicy = '" . $config['strictfilenamepolicy'] . "'; // strictly rename files (just characters A to Z and numbers) 
+\$strictfilenamepolicy = " . configLiteral($config['strictfilenamepolicy']) . "; // strictly rename files (just characters A to Z and numbers) 
 
-\$categoriesenabled = '" . $config['categoriesenabled'] . "';
+\$categoriesenabled = " . configLiteral($config['categoriesenabled']) . ";
 
-\$cronAutoIndex = " . $config['cronAutoIndex'] . "; //Auto Index New Episodes via Cron
+\$cronAutoIndex = " . configLiteral($config['cronAutoIndex']) . "; //Auto Index New Episodes via Cron
 
-\$cronAutoRegenerateRSS = " . $config['cronAutoRegenerateRSS'] . "; //Auto regenerate RSS via Cron
+\$cronAutoRegenerateRSS = " . configLiteral($config['cronAutoRegenerateRSS']) . "; //Auto regenerate RSS via Cron
 
-\$indexfile = '" . $config['indexfile'] . "';    // Path of the index file
+\$indexfile = " . configLiteral($config['indexfile']) . ";    // Path of the index file
 
-\$podcastPassword = '" . $config['podcastPassword'] . "';       // Password to protect the podcast generator webpages, this will NOT protect the audio or XML files. Leave blank to disable.
+\$podcastPassword = " . configLiteral($config['podcastPassword']) . ";       // Password to protect the podcast generator webpages, this will NOT protect the audio or XML files. Leave blank to disable.
 
-\$customtagsenabled = '" . $config['customtagsenabled'] . "';   // Advanced functionality for custom RSS tag input
+\$customtagsenabled = " . configLiteral($config['customtagsenabled']) . ";   // Advanced functionality for custom RSS tag input
 
-\$timezone = '" . $config['timezone'] . "';              // Timezone used for displaying dates and times
+\$timezone = " . configLiteral($config['timezone']) . ";              // Timezone used for displaying dates and times
 
 #####################
 # XML Feed stuff
 
-\$podcast_guid = '" . $config['podcast_guid'] . "'; // Globally unique identifier for your podcast
+\$podcast_guid = " . configLiteral($config['podcast_guid']) . "; // Globally unique identifier for your podcast
 
-\$podcast_title = '" . $config['podcast_title'] . "';
+\$podcast_title = " . configLiteral($config['podcast_title']) . ";
 
-\$podcast_subtitle = '" . $config['podcast_subtitle'] . "';
+\$podcast_subtitle = " . configLiteral($config['podcast_subtitle']) . ";
 
-\$podcast_description = '" . $config['podcast_description'] . "';
+\$podcast_description = " . configLiteral($config['podcast_description']) . ";
 
-\$podcast_cover = '" . $config['podcast_cover'] . "';
+\$podcast_cover = " . configLiteral($config['podcast_cover']) . ";
 
-\$author_name = '" . $config['author_name'] . "';
+\$author_name = " . configLiteral($config['author_name']) . ";
 
-\$author_email = '" . $config['author_email'] . "';
+\$author_email = " . configLiteral($config['author_email']) . ";
 
 # The e-mail of the technical admin of the podcast
-\$webmaster = '" . $config['author_email'] . "';
+\$webmaster = " . configLiteral($config['author_email']) . ";
 
-\$itunes_category[0] = '" . $config['itunes_category[0]'] . "'; // iTunes categories (mainCategory:subcategory)
-\$itunes_category[1] = '" . $config['itunes_category[1]'] . "';
-\$itunes_category[2] = '" . $config['itunes_category[2]'] . "';
+\$itunes_category[0] = " . configLiteral($config['itunes_category[0]']) . "; // iTunes categories (mainCategory:subcategory)
+\$itunes_category[1] = " . configLiteral($config['itunes_category[1]']) . ";
+\$itunes_category[2] = " . configLiteral($config['itunes_category[2]']) . ";
 
-\$link = '" . $config['link'] . "'; // permalink URL of single episode (appears in the <link> and <guid> tags in the feed)
+\$link = " . configLiteral($config['link']) . "; // permalink URL of single episode (appears in the <link> and <guid> tags in the feed)
 
-\$feed_language = '" . $config['feed_language'] . "';
+\$feed_language = " . configLiteral($config['feed_language']) . ";
 
-\$feed_sort = '" . $config['feed_sort'] . "'; // sort method used to order episodes in the feed (by timestamp or by season/episode number)
+\$feed_sort = " . configLiteral($config['feed_sort']) . "; // sort method used to order episodes in the feed (by timestamp or by season/episode number)
 
-\$feed_locked = '" . $config['feed_locked'] . "'; // podcast:locked status ('yes', 'no', '' for off)
+\$feed_locked = " . configLiteral($config['feed_locked']) . "; // podcast:locked status ('yes', 'no', '' for off)
 
-\$copyright = '" . $config['copyright'] . "';   // Your copyright notice (e.g CC-BY)
+\$copyright = " . configLiteral($config['copyright']) . ";   // Your copyright notice (e.g CC-BY)
 
-\$feed_encoding = '" . $config['feed_encoding'] . "';
+\$feed_encoding = " . configLiteral($config['feed_encoding']) . ";
 
-\$explicit_podcast = '" . $config['explicit_podcast'] . "'; //does your podcast contain explicit language? ('yes' or 'no')
+\$explicit_podcast = " . configLiteral($config['explicit_podcast']) . "; //does your podcast contain explicit language? ('yes' or 'no')
 
-\$users_json = '" . $config['users_json'] . "';
+\$users_json = " . configLiteral($config['users_json']) . ";
 
 #####################
 # WebSub
 
-\$websub_server = '" . $config['websub_server'] . "';
+\$websub_server = " . configLiteral($config['websub_server']) . ";
 
 #####################
 # Podcast Index
 
-\$pi_api_key = '" . $config['pi_api_key'] . "';
-\$pi_api_secret = '" . $config['pi_api_secret'] . "';
+\$pi_api_key = " . configLiteral($config['pi_api_key']) . ";
+\$pi_api_secret = " . configLiteral($config['pi_api_secret']) . ";
 
-\$pi_podcast_id = " . $config['pi_podcast_id'] . "; // is the podcast in Podcast Index? This is its show ID there.
+\$pi_podcast_id = " . (int) $config['pi_podcast_id'] . "; // is the podcast in Podcast Index? This is its show ID there.
 
 // END OF CONFIG
 ";

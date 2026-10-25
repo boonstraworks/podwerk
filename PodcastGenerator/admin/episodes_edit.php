@@ -106,7 +106,7 @@ if (count($_POST) > 0) {
     }
 
     // If we have custom tags, ensure that they're valid XML
-    $customTags = $_POST['customtags'];
+    $customTags = isset($_POST['customtags']) ? $_POST['customtags'] : '';
     if (!isWellFormedXml($customTags)) {
         if ($config['customtagsenabled'] == 'yes') {
             $error = _('Custom tags are not well-formed');
@@ -236,10 +236,10 @@ if (count($_POST) > 0) {
 	<episode>
 	    <guid>' . htmlspecialchars($guid) . '</guid>
 	    <titlePG>' . htmlspecialchars($_POST['title'], ENT_NOQUOTES) . '</titlePG>
-	    <episodeNumPG>' . $_POST['episodenum'] . '</episodeNumPG>
-	    <seasonNumPG>' . $_POST['seasonnum'] . '</seasonNumPG>
-	    <shortdescPG><![CDATA[' . $_POST['shortdesc'] . ']]></shortdescPG>
-	    <longdescPG><![CDATA[' . $long_desc . ']]></longdescPG>
+	    <episodeNumPG>' . htmlspecialchars($_POST['episodenum']) . '</episodeNumPG>
+	    <seasonNumPG>' . htmlspecialchars($_POST['seasonnum']) . '</seasonNumPG>
+	    <shortdescPG><![CDATA[' . cdataSafe($_POST['shortdesc']) . ']]></shortdescPG>
+	    <longdescPG><![CDATA[' . cdataSafe($long_desc) . ']]></longdescPG>
 	    <imgPG path="' . htmlspecialchars($currentCoverFile) . '">' . htmlspecialchars($currentCoverUrl) . '</imgPG>
 	    <categoriesPG>
 	        <category1PG>' . htmlspecialchars($categories[0]) . '</category1PG>
@@ -247,7 +247,7 @@ if (count($_POST) > 0) {
 	        <category3PG>' . htmlspecialchars($categories[2]) . '</category3PG>
 	    </categoriesPG>
 	    <keywordsPG>' . htmlspecialchars($_POST['itunesKeywords']) . '</keywordsPG>
-	    <explicitPG>' . $_POST['explicit'] . '</explicitPG>
+	    <explicitPG>' . ($_POST['explicit'] == 'yes' ? 'yes' : 'no') . '</explicitPG>
 	    <authorPG>
 	        <namePG>' . htmlspecialchars($_POST['authorname']) . '</namePG>
 	        <emailPG>' . htmlspecialchars($_POST['authoremail']) . '</emailPG>
@@ -258,7 +258,7 @@ if (count($_POST) > 0) {
 	        <bitrate>' . substr(strval($bitrate), 0, 3) . '</bitrate>
 	        <frequency>' . $frequency . '</frequency>
 	    </fileInfoPG>
-	    <customTagsPG><![CDATA[' . $customTags . ']]></customTagsPG>' . "\n";
+	    <customTagsPG><![CDATA[' . cdataSafe($customTags) . ']]></customTagsPG>' . "\n";
 
     if (!empty($previousCoverFiles)) {
         $episodefeed .= "\t\t" . '<previousImgsPG>' . "\n";

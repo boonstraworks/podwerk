@@ -39,17 +39,17 @@
                 $config["url"] . $config["img_dir"] . $correctepisode["episode"]["fileid"] . '.jpg';
             $img = $filename;
         } ?>
-        <meta property="og:title" content="<?= $config["podcast_title"] . ' - ' . $correctepisode["episode"]["titlePG"] ?>" />
+        <meta property="og:title" content="<?= htmlspecialchars($config["podcast_title"] . ' - ' . $correctepisode["episode"]["titlePG"]) ?>" />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="'<?= $config["url"] . 'index.php?name=' . $correctepisode["episode"]["filename"] ?>" />
-        <meta property="og:image" content="<?= $img ?>" />
-        <meta property="og:description" content="<?= $config["podcast_description"] ?>" />
+        <meta property="og:url" content="<?= htmlspecialchars($config["url"] . 'index.php?name=' . $correctepisode["episode"]["filename"]) ?>" />
+        <meta property="og:image" content="<?= htmlspecialchars($img) ?>" />
+        <meta property="og:description" content="<?= htmlspecialchars($config["podcast_description"]) ?>" />
 
         <?php if (strtolower($config["enablestreaming"]) == "yes") {
             // Get mime
             $mime = getmime($config["absoluteurl"] . $config["upload_dir"] . $correctepisode["episode"]["filename"]);
             if (!$mime) {
-                $mime = null;
+                $mime = '';
             }
             $type = '';
             if (substr($mime, 0, 5) == 'video') {
@@ -58,18 +58,18 @@
                 $type = 'audio';
             }
             if ($type == 'audio' || $type == 'video') {
-                ?><meta property="og:<?= $type ?>" content="<?= $config["url"] . $config["upload_dir"] . $correctepisode["episode"]["filename"] ?>" /><?php
+                ?><meta property="og:<?= $type ?>" content="<?= htmlspecialchars($config["url"] . $config["upload_dir"] . $correctepisode["episode"]["filename"]) ?>" /><?php
                 if ($mime) {
                     ?><meta property="og:<?= $type ?>:type" content="<?= $mime ?>" /><?php
                 }
             }
         } ?>
     <?php } else { ?>
-        <meta property="og:title" content="<?= $config["podcast_title"] ?>" />
+        <meta property="og:title" content="<?= htmlspecialchars($config["podcast_title"]) ?>" />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="<?= $config["url"] ?>" />
-        <meta property="og:image" content="<?= $config["url"] . $config["img_dir"] . $config['podcast_cover'] ?>" />
-        <meta property="og:description" content="<?= $config["podcast_description"] ?>" />
+        <meta property="og:url" content="<?= htmlspecialchars($config["url"]) ?>" />
+        <meta property="og:image" content="<?= htmlspecialchars($config["url"] . $config["img_dir"] . $config['podcast_cover']) ?>" />
+        <meta property="og:description" content="<?= htmlspecialchars($config["podcast_description"]) ?>" />
     <?php } ?>
 </head>
 

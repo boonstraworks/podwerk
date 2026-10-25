@@ -13,6 +13,9 @@ require '../core/include_admin.php';
 if (isset($_GET['edit'])) {
     checkToken();
     foreach ($_POST as $key => $value) {
+        if (isProtectedConfigKey($key)) {
+            continue;
+        }
         updateConfig('../config.php', $key, $value);
     }
     header('Location: pg_config.php');
@@ -144,7 +147,7 @@ $episodeSortOrderOptions = array(
             <small>
                 <?= _('Leave empty for no password, keep in mind that the feed and the audio files will still be accessible no matter if a password is set or not') ?>
             </small><br>
-            <input type="text" id="podcastPassword" name="podcastPassword" value="<?= $config['podcastPassword'] ?>">
+            <input type="text" id="podcastPassword" name="podcastPassword" value="<?= htmlspecialchars($config['podcastPassword']) ?>">
             <br>
 
             <hr>
