@@ -47,8 +47,10 @@ function backwards_3_1_to_3_2_9($absoluteurl)
         return;
     }
 
-    // Fix up podcast language
-    $languages = simplexml_load_file('../components/supported_languages/podcast_languages.xml');
+    // Fix up podcast language. Absolute path: the upgrade can start from the
+    // public pages as well as from admin/, and a missing list reset every
+    // podcast to English.
+    $languages = simplexml_load_file(__DIR__ . '/../components/supported_languages/podcast_languages.xml');
 
     $matchedLanguage = null;
     foreach ($languages as $lang) {
