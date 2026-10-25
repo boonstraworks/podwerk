@@ -9,17 +9,53 @@ Versions prior to 3.2 are documented per their individual release notes.
 
 ## [Unreleased]
 
+## [3.2.10] - unreleased
+
+Maintenance release on top of 3.2.9, after the original project was
+archived. Drop-in update: existing installations, configs, logins and
+themes keep working.
+
 ### Added
+
+* `tests/smoke.sh`: smoke test for a running installation (setup, login,
+  every admin page, CSRF and injection checks, episode upload, feed check).
 
 ### Changed
 
-### Deprecated
+* Themes made for any 3.2.x release are offered for every 3.2.x release.
+* Upgrading from 3.2.9 only updates the version number in `config.php`.
 
 ### Removed
 
+* Dependency `podcastindex/podcastindex-php`, replaced by a small built-in
+  cURL client. This also removes Guzzle 6 and its dependencies.
+* `phpunit/phpunit` from the development dependencies (there are no tests
+  and the locked version did not install on PHP 8.2+).
+
 ### Fixed
 
+* PHP 8.5 deprecations: `curl_close()`, `htmlspecialchars(null)` on the
+  theme buttons page, `sleep(0.01)` in `feed.php`, optional parameters
+  before required ones.
+* Settings containing quotes, backslashes or semicolons are saved intact.
+* Entering Podcast Index credentials and clicking "Add Show" at once now
+  uses the new credentials.
+* `]]>` in an episode description no longer breaks the episode file or
+  the RSS feed.
+* Undefined `customtags` warning when uploading or editing an episode.
+* "session already active" notice on the first visit after an upgrade.
+
 ### Security
+
+* Settings were written to `config.php` without escaping, so a crafted
+  value could run PHP code or replace config lines such as `users_json`.
+  Values are now escaped and settings forms cannot change internal keys.
+* The integrations page did not check the CSRF token.
+* Removed 15 known vulnerabilities in bundled dependencies (Guzzle 6,
+  guzzlehttp/psr7, symfony/polyfill-intl-idn).
+* Cryptographically secure random tokens, timing-safe token checks and a
+  new session ID on login.
+* Episode XML and default theme output are escaped properly.
 
 ## [3.2.9] - 2022-11-03
 
