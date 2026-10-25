@@ -19,6 +19,11 @@ installations, configs, logins and themes keep working.
 
 ### Added
 
+* A new default theme, **Podwerk**: cover art leads, episodes read as a
+  playlist with inline play, friendlier dates, a built-in dark mode
+  (follows the operating system) and a responsive layout. New
+  installations use it; the classic theme stays available as `default`
+  and existing sites keep whatever theme they use.
 * `tests/smoke.sh`: smoke test for a running installation (setup, login,
   every admin page, CSRF, injection and XSS checks, episode upload, feed
   check).
@@ -66,6 +71,9 @@ installations, configs, logins and themes keep working.
   empty `media/` and `images/` folders are included in the package again.
 * Changing a user's password to an empty one locked that user out; it is
   now rejected.
+* The classic theme linked `style/custom.css`, which was never shipped, so
+  every page requested a missing file; an empty `custom.css` is now
+  included for your own overrides.
 
 ### Security
 

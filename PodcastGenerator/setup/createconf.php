@@ -38,7 +38,7 @@ function createconf($username, $password)
 
 \$absoluteurl = " . configLiteral($absoluteurl) . "; // The location on the server
 
-\$theme_path = 'themes/default/';
+\$theme_path = 'themes/podwerk/';
 
 \$upload_dir = 'media/'; // 'media/' the default folder (Trailing slash required). Set chmod 755
 

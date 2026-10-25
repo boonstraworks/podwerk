@@ -1,0 +1,6 @@
+{
+    "name": "Podwerk",
+    "pg_versions": ["3.2.9", "3.2.10"],
+    "author": "BoonstraWorks",
+    "credits": "Bricolage Grotesque & Hanken Grotesk (SIL Open Font License)"
+}

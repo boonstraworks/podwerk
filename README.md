@@ -12,8 +12,13 @@ which its authors archived in April 2026. It is a **drop-in upgrade for
 Podcast Generator 3.2.x**: your configuration, episodes, logins and themes
 keep working.
 
+![The Podwerk theme on a sample podcast](docs/screenshots/home.jpg)
+
 ## Why Podwerk
 
+* **A modern theme.** Podwerk ships a new default theme: the cover art
+  leads, episodes read as a playlist, and it has a built-in dark mode. The
+  classic theme is still included for sites that use it.
 * **Security fixes** for Podcast Generator 3.2.9, including the published
   CVE-2023-53899, CVE-2023-53919 and CVE-2023-53920, and several issues
   found while taking over the code (see the [changelog](CHANGELOG.md)).
@@ -21,6 +26,12 @@ keep working.
 * **No known vulnerable dependencies**: `composer audit` is clean.
 * **Maintained**: security and PHP compatibility updates for the 3.2
   series.
+
+| Episode page | Dark mode | Mobile |
+| --- | --- | --- |
+| ![Episode page](docs/screenshots/episode.jpg) | ![Dark mode](docs/screenshots/dark.jpg) | ![Mobile](docs/screenshots/mobile.jpg) |
+
+<sub>Screenshots use a sample podcast ("The Backyard Naturalist") with placeholder content.</sub>
 
 ## Requirements
 

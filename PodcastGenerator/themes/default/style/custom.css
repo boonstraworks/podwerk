@@ -1,0 +1,9 @@
+/*
+ * Your own styles for the default theme.
+ *
+ * This file is loaded after the theme's own stylesheets, so anything you put
+ * here overrides them. It ships empty on purpose: edit it to tweak the look
+ * of your podcast without touching the other files, and your changes survive
+ * updates. The theme links it on every page, so it must exist (an empty file
+ * is fine) to avoid a 404.
+ */
