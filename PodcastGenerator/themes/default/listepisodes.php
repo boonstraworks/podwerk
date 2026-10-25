@@ -38,7 +38,7 @@ for ($i = 0; $i < count($episode_chunk); $i++) {
         <div class="card h-100">
             <img class="card-img-top mb-1" style="max-width: 100%; max-height: 100%;" src="<?= $coverimage ?>">
             <div class="card-body">
-                <h5><a href="<?= $config['indexfile'] . '?' . $link . '=' . $item[$i]["episode"]["filename"] ?>"><?= $item[$i]["episode"]["titlePG"] ?></a></h5>
+                <h5><a href="<?= htmlspecialchars($config['indexfile'] . '?' . $link . '=' . $item[$i]["episode"]["filename"]) ?>"><?= htmlspecialchars($item[$i]["episode"]["titlePG"]) ?></a></h5>
 
                 <p><i class="fa fa-calendar" aria-hidden="true"></i> <small class="text-muted"><?= $item[$i]["episode"]["moddate"] ?></small></p>
                 <p class="card-text"><small><?= $item[$i]["episode"]["shortdescPG"] ?></small></p>

@@ -8,6 +8,7 @@
 #
 # This is Free Software released under the GNU/GPL License.
 ############################################################
+require_once __DIR__ . '/misc/html_sanitizer.php';
 
 function getSupportedExtensions($config)
 {
@@ -125,8 +126,9 @@ function arrayEpisode($item, $episode, $_config)
             'titlePG' => $item->titlePG,
             'episodeNumPG' => $item->episodeNumPG,
             'seasonNumPG' => $item->seasonNumPG,
-            'shortdescPG' => $item->shortdescPG,
-            'longdescPG' => $item->longdescPG,
+            // Descriptions may contain formatting, but never scripts
+            'shortdescPG' => sanitizeHtml($item->shortdescPG),
+            'longdescPG' => sanitizeHtml($item->longdescPG),
             'imgPG' => $item->imgPG,
             'categoriesPG' => [
                 'category1PG' => $item->categoriesPG->category1PG,

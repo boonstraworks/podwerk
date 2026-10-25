@@ -48,7 +48,7 @@ if ($correctepisode["episode"]["imgPG"] != "") {
 
             <div class="col">
                 <div class="card-body">
-                    <h4><?= $correctepisode["episode"]["titlePG"] ?></h4>
+                    <h4><?= htmlspecialchars($correctepisode["episode"]["titlePG"]) ?></h4>
                     <p><i class="fa fa-calendar" aria-hidden="true"></i> <small class="text-muted"><?= $correctepisode["episode"]["moddate"] ?></small></p>
                     <p class="card-text"><small><?= $correctepisode["episode"]["shortdescPG"] ?></small></p>
 
