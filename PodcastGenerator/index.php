@@ -22,7 +22,8 @@ if ($config['podcastPassword'] != "") {
 // categories.php.
 if (isset($_GET['p'])) {
     if ($_GET['p'] == 'archive') {
-        $redirect_url = $config['url'] . 'categories.php?cat=' . $_GET['cat'];
+        $redirect_url = $config['url'] . 'categories.php?cat='
+            . (isset($_GET['cat']) ? urlencode($_GET['cat']) : 'all');
         header('Location: ' . $redirect_url);
         die();
     }

@@ -138,7 +138,7 @@ function generateRssItem($file, $uploadDir, $uploadUrl, $imagesDir, $imagesUrl)
 
 function generateRssFeed($_config, $category = null)
 {
-    global $version;
+    global $version, $app_name, $app_url;
 
     // We use the media directory a lot, and possibly also the images directory
     // Stick them in variables instead of concatenating all the time
@@ -152,7 +152,8 @@ function generateRssFeed($_config, $category = null)
 
     $categoryDescription = null;
     if (!empty($category)) {
-        $feedUrl = $_config['url'] . 'feed.php?cat=' . $category;
+        // $category comes straight from feed.php?cat=
+        $feedUrl = $_config['url'] . 'feed.php?cat=' . urlencode($category);
         // Get category description
         $cats = simplexml_load_file($_config['absoluteurl'] . 'categories.xml');
         foreach ($cats as $item) {
@@ -172,7 +173,7 @@ function generateRssFeed($_config, $category = null)
 
     // Set the feed header with relevant podcast informations
     $feedhead = '<?xml version="1.0" encoding="' . $_config['feed_encoding'] . '"?>
-<!-- generator="Podcast Generator ' . $version . '" -->
+<!-- generator="' . htmlspecialchars($app_name . ' ' . $version) . '" -->
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
      xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
      xml:lang="' . $_config['feed_language'] . '"
@@ -181,25 +182,25 @@ function generateRssFeed($_config, $category = null)
      xmlns:podcast="https://podcastindex.org/namespace/1.0">
 	<channel>
 		<title>' . htmlspecialchars($feedTitle) . '</title>
-		<link>' . $_config['url'] . '</link>
-		<atom:link href="' . $feedUrl . '" rel="self" type="application/rss+xml" />' . "\n";
+		<link>' . htmlspecialchars($_config['url']) . '</link>
+		<atom:link href="' . htmlspecialchars($feedUrl) . '" rel="self" type="application/rss+xml" />' . "\n";
 
     if (!empty($_config['podcast_guid'])) {
         $feedhead .= '		<podcast:guid>' . $_config['podcast_guid'] . '</podcast:guid>' . "\n";
     }
 
     $feedhead .= '		<description>' . htmlspecialchars($_config['podcast_description']) . '</description>
-		<generator>Podcast Generator ' . $version . ' - http://www.podcastgenerator.net</generator>
+		<generator>' . htmlspecialchars($app_name . ' ' . $version . ' - ' . $app_url) . '</generator>
 		<lastBuildDate>' . date('r') . '</lastBuildDate>
 		<language>' . $_config['feed_language'] . '</language>
 		<copyright>' . htmlspecialchars($_config['copyright']) . '</copyright>
 		<managingEditor>' . htmlspecialchars($_config['author_email']) . '</managingEditor>
 		<webMaster>' . htmlspecialchars($_config['webmaster']) . '</webMaster>
-		<itunes:image href="' . $podcastCoverUrl . '" />
+		<itunes:image href="' . htmlspecialchars($podcastCoverUrl) . '" />
 		<image>
-			<url>' . $podcastCoverUrl . '</url>
+			<url>' . htmlspecialchars($podcastCoverUrl) . '</url>
 			<title>' . htmlspecialchars($_config['podcast_title']) . '</title>
-			<link>' . $_config['url'] . '</link>
+			<link>' . htmlspecialchars($_config['url']) . '</link>
 		</image>
 		<itunes:summary>' . htmlspecialchars($_config['podcast_description']) . '</itunes:summary>
 		<itunes:subtitle>' . htmlspecialchars($_config['podcast_subtitle']) . '</itunes:subtitle>
@@ -219,7 +220,7 @@ function generateRssFeed($_config, $category = null)
     }
 
     if ($_config['websub_server'] != '') {
-        $feedhead .= '		<atom:link href="' . $_config['websub_server'] . '" rel="hub" />' . "\n";
+        $feedhead .= '		<atom:link href="' . htmlspecialchars($_config['websub_server']) . '" rel="hub" />' . "\n";
     }
 
     if ($_config['feed_locked'] != '') {
