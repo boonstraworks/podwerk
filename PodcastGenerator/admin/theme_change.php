@@ -21,18 +21,32 @@ $themes = array_map(
     glob('../themes/*', GLOB_ONLYDIR)
 );
 
-// Check if the theme is compatible
+// Check if the theme is compatible. Maintenance releases do not change the
+// theme API, so a theme made for any 3.2.x release works with every 3.2.x.
+function themeSupportsVersion($pgVersions, $version)
+{
+    $series = implode('.', array_slice(explode('.', $version), 0, 2));
+    foreach ((array) $pgVersions as $supported) {
+        $supported = strval($supported);
+        if ($supported === $series || strpos($supported, $series . '.') === 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 $themes = array_filter(
     $themes,
     function ($item) {
         global $version;
-        return in_array(strval($version), $item->json->pg_versions);
+        return isset($item->json->pg_versions)
+            && themeSupportsVersion($item->json->pg_versions, strval($version));
     }
 );
 
 if (isset($_GET['change'])) {
     checkToken();
-    if ($_GET['change'] > count($themes)) {
+    if (!isset($themes[$_GET['change']])) {
         goto error;
     }
     updateConfig('../config.php', 'theme_path', $themes[$_GET['change']]->path);

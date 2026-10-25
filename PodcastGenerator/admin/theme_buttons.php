@@ -129,23 +129,23 @@ if (isset($_GET['name'])) {
             <?php } ?>
             </ul>
         <?php } else { ?>
-            <form action="theme_buttons.php?edit=1&name=<?= htmlspecialchars($name) ?>" method="POST">
+            <form action="theme_buttons.php?edit=1&name=<?= htmlspecialchars((string) $name) ?>" method="POST">
                 <label for="name_e"><?= _('Name') ?>:</label> (<?= _('needs to be unique') ?>)<br>
-                <input type="text" id="name_e" name="name" value="<?= htmlspecialchars($btn->name) ?>"><br>
+                <input type="text" id="name_e" name="name" value="<?= htmlspecialchars((string) $btn->name) ?>"><br>
 
                 <label for="href_e"><?= _('Link') ?>:</label> (<?= _('where it should point to') ?>)<br>
-                <input type="text" id="href_e" name="href" value="<?= htmlspecialchars($btn->href) ?>"><br>
+                <input type="text" id="href_e" name="href" value="<?= htmlspecialchars((string) $btn->href) ?>"><br>
 
                 <label for="class_e"><?= _('CSS Classes') ?></label>
                 (<?= sprintf(
                     _('depends on theme, you can use %s in the default theme'),
                     '<a href="https://getbootstrap.com/docs/4.3/components/buttons/">bootstrap</a>'
                 ) ?>)<br>
-                <input type="text" id="class_e" name="class" value="<?= htmlspecialchars($btn->class) ?>"><br>
+                <input type="text" id="class_e" name="class" value="<?= htmlspecialchars((string) $btn->class) ?>"><br>
 
                 <label for="protocol_e"><?= _('Protocol') ?>:</label>
                 (<?= _('Leave it blank if you don\'t know what you are doing') ?><br>
-                <input type="text" id="protocol_e" name="protocol" value="<?= htmlspecialchars($btn->protocol) ?>">
+                <input type="text" id="protocol_e" name="protocol" value="<?= htmlspecialchars((string) $btn->protocol) ?>">
                 <br>
 
                 <br>
@@ -154,7 +154,7 @@ if (isset($_GET['name'])) {
             </form>
             <hr>
 
-            <form action="theme_buttons.php?del=1&name=<?= htmlspecialchars($name) ?>" method="POST">
+            <form action="theme_buttons.php?del=1&name=<?= htmlspecialchars((string) $name) ?>" method="POST">
                 <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
                 <input class="btn btn-danger" type="submit" value="<?= _('Delete Button') ?>">
             </form>
@@ -163,23 +163,23 @@ if (isset($_GET['name'])) {
         <?php if (!isset($_GET['name'])) { ?>
             <hr>
             <h3><?= _('Add Button') ?></h3>
-            <form action="theme_buttons.php?add=1&name=<?= htmlspecialchars($name) ?>" method="POST">
+            <form action="theme_buttons.php?add=1&name=<?= htmlspecialchars((string) $name) ?>" method="POST">
                 <label for="name_a"><?= _('Name') ?>:</label> (<?= _('needs to be unique') ?>)<br>
-                <input type="text" id="name_a" name="name" value="<?= htmlspecialchars($btn->name) ?>"><br>
+                <input type="text" id="name_a" name="name" value="<?= htmlspecialchars((string) $btn->name) ?>"><br>
 
                 <label for="href_e"><?= _('Link') ?>:</label> (<?= _('where it should point to') ?>)<br>
-                <input type="text" id="href_a" name="href" value="<?= htmlspecialchars($btn->href) ?>"><br>
+                <input type="text" id="href_a" name="href" value="<?= htmlspecialchars((string) $btn->href) ?>"><br>
 
                 <label for="class_e"><?= _('CSS Classes') ?></label>
                 (<?= sprintf(
                     _('depends on theme, you can use %s in the default theme'),
                     '<a href="https://getbootstrap.com/docs/4.3/components/buttons/">bootstrap</a>'
                 ) ?>)<br>
-                <input type="text" id="class_a" name="class" value="<?= htmlspecialchars($btn->class) ?>"><br>
+                <input type="text" id="class_a" name="class" value="<?= htmlspecialchars((string) $btn->class) ?>"><br>
 
                 <label for="protocol_e"><?= _('Protocol') ?>:</label>
                 (<?= _('Leave it blank if you don\'t know what you are doing') ?><br>
-                <input type="text" id="protocol_a" name="protocol" value="<?= htmlspecialchars($btn->protocol) ?>"><br>
+                <input type="text" id="protocol_a" name="protocol" value="<?= htmlspecialchars((string) $btn->protocol) ?>"><br>
 
                 <br>
                 <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">

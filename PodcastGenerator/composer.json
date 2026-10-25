@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "podcastgenerator/podcastgenerator",
     "description": "Open Source Podcast Publishing Solution since 2006",
-    "version": "3.2.0",
+    "version": "3.2.10",
     "type": "project",
     "keywords": [
         "podcast",
