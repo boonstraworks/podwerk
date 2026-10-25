@@ -10,8 +10,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Podcast Generator 3.2\n"
-"Report-Msgid-Bugs-To: https://github.com/PodcastGenerator/PodcastGenerator/issues/new\n"
+"Project-Id-Version: Podwerk 3.2\n"
+"Report-Msgid-Bugs-To: https://github.com/boonstraworks/podwerk/issues/new\n"
 "POT-Creation-Date: 2022-03-22 17:45-0400\n"
 "PO-Revision-Date: 2022-03-20 18:30+0000\n"
 "Last-Translator: Ushby Technical Team <management@ushby.org>, 2022\n"
@@ -474,20 +474,15 @@ msgstr ""
 "في ملف ZIP لهذا الإصدار الذي قمت بتنزيله ، يوجد ملف في %s المجلد يسمى %s. قم"
 " بتحميل هذا الملف إلى دليل المسؤول بالاسم %s"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %1$s is the name of the software (Podwerk), which is not translated. %2$s is a link.
 #: PodcastGenerator/admin/forgot.php:19
-msgid ""
-"If you no don't have this ZIP file anymore, don't worry! All versions of "
-"Podcast Generator ever released since 2.5 are available on the Podcast "
-"Generator Homepage."
+msgid "If you no longer have this ZIP file, download the same version again from the %1$s releases page: %2$s"
 msgstr ""
-"إذا لم يكن لديك ملف ZIP هذا بعد الآن ، فلا تقلق! جميع إصدارات Podcast "
-"Generator التي تم إصدارها منذ 2.5 متاحة على الصفحة الرئيسية لمولد Podcast."
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/index.php:38
-msgid "Welcome to your Podcast Generator Admin Interface"
-msgstr "مرحبًا بك في واجهة إدارة مولد البودكاست"
+msgid "Welcome to your %s Admin Interface"
+msgstr "مرحبًا بك في واجهة إدارة %s"
 
 #: PodcastGenerator/admin/login.php:24
 msgid "Login disabled for security reasons"
@@ -572,15 +567,10 @@ msgstr "تفاصيل البودكاست"
 msgid "Change Podcast details"
 msgstr "تغيير تفاصيل البودكاست"
 
-#. # 'Podcast Generator' is a proper name.
-#: PodcastGenerator/admin/navbar.php:54
-msgid "Podcast Generator"
-msgstr "مولد البودكاست"
-
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/navbar.php:58
-msgid "Change Podcast Generator Config"
-msgstr "تغيير تكوين مولد البودكاست"
+msgid "Change %s Config"
+msgstr "تغيير تكوين %s"
 
 #: PodcastGenerator/admin/navbar.php:59 PodcastGenerator/admin/pg_users.php:71
 #: PodcastGenerator/admin/pg_users.php:85
@@ -604,16 +594,16 @@ msgstr "التوقيع الوقتي"
 msgid "Season and episode number"
 msgstr "رقم الموسم و الحلقة"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:70
 #: PodcastGenerator/admin/pg_integrations.php:72
-msgid "Podcast Generator Configuration"
-msgstr "تكوين مولد البودكاست"
+msgid "%s Configuration"
+msgstr "تكوين %s"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:85
-msgid "Change Podcast Generator Configuration"
-msgstr "تغيير تكوين مولد البودكاست"
+msgid "Change %s Configuration"
+msgstr "تغيير تكوين %s"
 
 #: PodcastGenerator/admin/pg_config.php:87
 msgid "Enable Audio and Video Player"

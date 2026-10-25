@@ -59,7 +59,7 @@ function pingWebSub()
 function pingPodcastIndex()
 {
     // Get the global config
-    global $config, $version;
+    global $config, $version, $app_name;
 
     // Exit early if Podcast Index isn't set up
     if (!$config['pi_api_key'] || !$config['pi_api_secret'] || !$config['pi_podcast_id']) {
@@ -72,7 +72,7 @@ function pingPodcastIndex()
             array('id' => $config['pi_podcast_id']),
             $config['pi_api_key'],
             $config['pi_api_secret'],
-            'PodcastGenerator/' . $version
+            $app_name . '/' . $version
         );
     } catch (Exception $e) {
         // write a warning to stderr, but don't blow anything up

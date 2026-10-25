@@ -41,7 +41,7 @@ if (isset($_GET['edit'])) {
                         array('url' => $config['url'] . $config['feed_dir'] . 'feed.xml'),
                         $config['pi_api_key'],
                         $config['pi_api_secret'],
-                        'PodcastGenerator/' . $version
+                        $app_name . '/' . $version
                     );
                     $result = $response['json'];
                     if ($response['code'] >= 400) {
@@ -76,8 +76,8 @@ if (isset($_GET['edit'])) {
 <html>
 
 <head>
-    <?php //# 'Podcast Generator' is a proper name. ?>
-    <title><?= htmlspecialchars($config['podcast_title']) ?> - <?= _('Podcast Generator Configuration'); ?></title>
+    <?php //# %s is the name of the software (Podwerk), which is not translated. ?>
+    <title><?= htmlspecialchars($config['podcast_title']) ?> - <?= sprintf(_('%s Configuration'), $app_name); ?></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../core/bootstrap/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

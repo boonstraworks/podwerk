@@ -50,12 +50,11 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?php //# 'Podcast Generator' is a proper name. ?>
-                    <?= _('Podcast Generator') ?>
+                    <?= htmlspecialchars($app_name) ?>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <?php //# 'Podcast Generator' is a proper name. ?>
-                    <a class="dropdown-item" href="pg_config.php"><?= _('Change Podcast Generator Config') ?></a>
+                    <?php //# %s is the name of the software (Podwerk), which is not translated. ?>
+                    <a class="dropdown-item" href="pg_config.php"><?= sprintf(_('Change %s Config'), $app_name) ?></a>
                     <a class="dropdown-item" href="pg_users.php"><?= _('Manage users') ?></a>
                     <a class="dropdown-item" href="pg_integrations.php"><?= _('Manage integrations') ?></a>
                 </div>

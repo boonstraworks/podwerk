@@ -1,17 +1,23 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "podcastgenerator/podcastgenerator",
-    "description": "Open Source Podcast Publishing Solution since 2006",
+    "name": "boonstraworks/podwerk",
+    "description": "Open source podcast publishing without a database. Maintained continuation of Podcast Generator.",
     "version": "3.2.10",
     "type": "project",
     "keywords": [
         "podcast",
         "podcasting",
-        "website generator"
+        "website generator",
+        "podcast generator"
     ],
-    "homepage": "https://podcastgenerator.net",
+    "homepage": "https://github.com/boonstraworks/podwerk",
     "license": "GPL-3.0-only",
     "authors": [
+        {
+            "name": "BoonstraWorks",
+            "homepage": "https://boonstraworks.nl",
+            "role": "Maintainer"
+        },
         {
             "name": "Chris Charabaruk",
             "homepage": "https://chris.charabaruk.com",
@@ -29,8 +35,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/PodcastGenerator/PodcastGenerator/issues",
-        "source": "https://github.com/PodcastGenerator/PodcastGenerator"
+        "issues": "https://github.com/boonstraworks/podwerk/issues",
+        "source": "https://github.com/boonstraworks/podwerk"
     },
     "require": {
         "php": ">=7.0",

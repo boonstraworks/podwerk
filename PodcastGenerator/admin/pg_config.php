@@ -69,8 +69,8 @@ $episodeSortOrderOptions = array(
 <html>
 
 <head>
-    <?php //# 'Podcast Generator' is a proper name. ?>
-    <title><?= htmlspecialchars($config['podcast_title']); ?> - <?= _('Podcast Generator Configuration') ?></title>
+    <?php //# %s is the name of the software (Podwerk), which is not translated. ?>
+    <title><?= htmlspecialchars($config['podcast_title']); ?> - <?= sprintf(_('%s Configuration'), $app_name) ?></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../core/bootstrap/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,8 +84,8 @@ $episodeSortOrderOptions = array(
     ?>
     <br>
     <div class="container">
-        <?php //# 'Podcast Generator' is a proper name. ?>
-        <h1><?= _('Change Podcast Generator Configuration') ?></h1>
+        <?php //# %s is the name of the software (Podwerk), which is not translated. ?>
+        <h1><?= sprintf(_('Change %s Configuration'), $app_name) ?></h1>
         <form action="pg_config.php?edit=1" method="POST">
             <?= _('Enable Audio and Video Player') ?>:<br>
             <small><?= _('Enable streaming in web browser') ?></small><br>

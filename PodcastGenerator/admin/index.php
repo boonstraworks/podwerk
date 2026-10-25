@@ -34,8 +34,8 @@ require '../core/include_admin.php';
     ?>
     <br>
     <div class="container">
-        <?php //# 'Podcast Generator' is a proper name. ?>
-        <h1><?= _('Welcome to your Podcast Generator Admin Interface') ?></h1>
+        <?php //# %s is the name of the software (Podwerk), which is not translated. ?>
+        <h1><?= sprintf(_('Welcome to your %s Admin Interface'), $app_name) ?></h1>
         <?php if ($config['enablepgnewsinadmin'] == 'yes' && $news_url != '') { ?>
             <iframe width="100%" src="<?= htmlspecialchars($news_url) ?>" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
         <?php } ?>
@@ -43,8 +43,9 @@ require '../core/include_admin.php';
         <div class="row align-items-end justify-content-end">
             <div class="col-3">
                 <small class="text-muted">
-                    <?php //# 'Podcast Generator' is a proper name. ?>
-                    <?= sprintf(_('Podcast Generator v%s'), $config['podcastgen_version']) ?>
+                    <a href="<?= htmlspecialchars($app_url) ?>" target="_blank" rel="noopener">
+                        <?= htmlspecialchars($app_name . ' v' . $config['podcastgen_version']) ?>
+                    </a>
                 </small>
             </div>
         </div>

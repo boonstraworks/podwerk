@@ -68,7 +68,7 @@ function createconf($username, $password)
 
 \$indexfile = 'index.php';    // Path of the index file
 
-\$podcastPassword = '';       // Password to protect the podcast generator webpages, this will NOT protect the audio or XML files. Leave blank to disable.
+\$podcastPassword = '';       // Password to protect the Podwerk webpages, this will NOT protect the audio or XML files. Leave blank to disable.
 
 \$customtagsenabled = 'no';   // Advanced functionality for custom RSS tag input
 
@@ -87,9 +87,9 @@ function createconf($username, $password)
 
 \$podcast_cover = 'itunes_image.jpg';
 
-\$author_name = 'Podcast Generator User';
+\$author_name = 'Podwerk User';
 
-\$author_email = 'podcastgenerator@example.com';
+\$author_email = 'podwerk@example.com';
 
 # The e-mail of the technical admin of the podcast
 \$webmaster = 'podcastadmin@example.com';

@@ -9,8 +9,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Podcast Generator 3.2\n"
-"Report-Msgid-Bugs-To: https://github.com/PodcastGenerator/PodcastGenerator/issues/new\n"
+"Project-Id-Version: Podwerk 3.2\n"
+"Report-Msgid-Bugs-To: https://github.com/boonstraworks/podwerk/issues/new\n"
 "POT-Creation-Date: 2022-03-22 17:45-0400\n"
 "PO-Revision-Date: 2022-03-20 18:30+0000\n"
 "Last-Translator: Chris Charabaruk <transifex@chris.charabaruk.net>, 2022\n"
@@ -477,21 +477,15 @@ msgstr ""
 "carpeta %s llamado %s. Sube este archivo en la carpeta de administrador con "
 "el nombre %s"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %1$s is the name of the software (Podwerk), which is not translated. %2$s is a link.
 #: PodcastGenerator/admin/forgot.php:19
-msgid ""
-"If you no don't have this ZIP file anymore, don't worry! All versions of "
-"Podcast Generator ever released since 2.5 are available on the Podcast "
-"Generator Homepage."
+msgid "If you no longer have this ZIP file, download the same version again from the %1$s releases page: %2$s"
 msgstr ""
-"Si no quieres este archivo ZIP, ¡no te preocupes! Todas las versiones de "
-"Podcast Generator lanzadas desde la 2.5 están disponibles en el sitio de "
-"Podcast Generator."
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/index.php:38
-msgid "Welcome to your Podcast Generator Admin Interface"
-msgstr "Bienvenido a tu interfaz de administración de Podcast Generator "
+msgid "Welcome to your %s Admin Interface"
+msgstr "Bienvenido a tu interfaz de administración de %s "
 
 #: PodcastGenerator/admin/login.php:24
 msgid "Login disabled for security reasons"
@@ -576,15 +570,10 @@ msgstr "Detalles del podcast"
 msgid "Change Podcast details"
 msgstr "Cambiar los detalles del podcast"
 
-#. # 'Podcast Generator' is a proper name.
-#: PodcastGenerator/admin/navbar.php:54
-msgid "Podcast Generator"
-msgstr "Podcast Generator"
-
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/navbar.php:58
-msgid "Change Podcast Generator Config"
-msgstr "Cambiar la configuración de Podcast Generator"
+msgid "Change %s Config"
+msgstr "Cambiar la configuración de %s"
 
 #: PodcastGenerator/admin/navbar.php:59 PodcastGenerator/admin/pg_users.php:71
 #: PodcastGenerator/admin/pg_users.php:85
@@ -608,16 +597,16 @@ msgstr "Marca de tiempo"
 msgid "Season and episode number"
 msgstr "Número de episodio y temporada"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:70
 #: PodcastGenerator/admin/pg_integrations.php:72
-msgid "Podcast Generator Configuration"
-msgstr "Configuración de Podcast Generator"
+msgid "%s Configuration"
+msgstr "Configuración de %s"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:85
-msgid "Change Podcast Generator Configuration"
-msgstr "Cambiar la configuración de Podcast Generator"
+msgid "Change %s Configuration"
+msgstr "Cambiar la configuración de %s"
 
 #: PodcastGenerator/admin/pg_config.php:87
 msgid "Enable Audio and Video Player"

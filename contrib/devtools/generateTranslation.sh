@@ -4,9 +4,9 @@
 # ./contrib/devtools/generateTranslation.sh <VERSIONTAG>
 xgettext \
     --copyright-holder="The Podcast Generator Translation Team" \
-    --package-name="Podcast Generator" \
+    --package-name="Podwerk" \
     --package-version="$1" \
-    --msgid-bugs-address="https://github.com/PodcastGenerator/PodcastGenerator/issues/new" \
+    --msgid-bugs-address="https://github.com/boonstraworks/podwerk/issues/new" \
     --language=PHP \
     --add-comments="#" \
     --from-code=UTF-8 \

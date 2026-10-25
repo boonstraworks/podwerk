@@ -70,6 +70,10 @@ fi
 check_page "home page" "$BASE/index.php"
 check_page "feed.php" "$BASE/feed.php"
 check_page "categories" "$BASE/categories.php"
+check_page "admin/forgot.php" "$BASE/admin/forgot.php"
+# Reflected XSS: an XHTML script element injected into the XML feed
+fetch "$BASE/feed.php?cat=x%22/%3E%3Cscript%20xmlns=%22http://www.w3.org/1999/xhtml%22%3Ealert(1)%3C/script%3E" >/dev/null
+if grep -q '<script' "$OUT"; then fail "reflected XSS via feed.php?cat"; else ok "feed.php?cat escaped"; fi
 code=$(fetch "$BASE/config.php")
 if [ "$code" = 200 ] && [ ! -s "$OUT" ]; then ok "config.php prints nothing"; else fail "config.php output (HTTP $code)"; fi
 

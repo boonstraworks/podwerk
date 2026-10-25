@@ -63,7 +63,7 @@ if (isset($_GET["create"])) {
 <html>
 
 <head>
-    <title>Podcast Generator - Step 3</title>
+    <title>Podwerk - Step 3</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../core/bootstrap/style.css">
 </head>
@@ -72,7 +72,7 @@ if (isset($_GET["create"])) {
     <div class="container m-auto">
         <div class="align-items-center justify-content-md-center p-3 row vh-100">
             <div class="col-xl-7 col-lg-7 col-md-10 col-sm-12 bg-white p-4 shadow">
-                <h2>Podcast Generator - <small>Step 3</small></h2>
+                <h2>Podwerk - <small>Step 3</small></h2>
                 <p><small>We are now creating the admin account for the admin area.</small></p>
                 <form method="POST" action="step3.php?create=1">
                     <div class="form-group">

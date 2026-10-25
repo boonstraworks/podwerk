@@ -103,7 +103,7 @@
             </nav>
         <?php } ?>
         <hr>
-        <p>Powered by <a href="http://podcastgenerator.net">Podcast Generator</a>, an open source podcast publishing solution | Theme based on <a href="https://getbootstrap.com">Bootstrap</a></p>
+        <p>Powered by <a href="<?= htmlspecialchars($app_url) ?>"><?= htmlspecialchars($app_name) ?></a>, an open source podcast publishing solution based on Podcast Generator | Theme based on <a href="https://getbootstrap.com">Bootstrap</a></p>
     </div>
 </body>
 

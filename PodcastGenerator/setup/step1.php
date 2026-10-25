@@ -29,7 +29,7 @@ if (isset($_GET['done'])) {
 <html>
 
 <head>
-    <title>Podcast Generator - Step 1</title>
+    <title>Podwerk - Step 1</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../core/bootstrap/style.css">
 </head>
@@ -38,7 +38,7 @@ if (isset($_GET['done'])) {
     <div class="container m-auto">
         <div class="align-items-center justify-content-md-center p-3 row vh-100">
             <div class="col-xl-7 col-lg-7 col-md-10 col-sm-12 bg-white p-4 shadow">
-                <h2>Podcast Generator - <small>Step 1</small></h2>
+                <h2>Podwerk - <small>Step 1</small></h2>
                 <p class="lead">Please choose a language</p>
                 <form action="step1.php?done=1" method="POST">
                     <select class="custom-select mb-4" name="lang">

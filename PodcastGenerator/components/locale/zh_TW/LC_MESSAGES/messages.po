@@ -11,8 +11,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Podcast Generator 3.2\n"
-"Report-Msgid-Bugs-To: https://github.com/PodcastGenerator/PodcastGenerator/issues/new\n"
+"Project-Id-Version: Podwerk 3.2\n"
+"Report-Msgid-Bugs-To: https://github.com/boonstraworks/podwerk/issues/new\n"
 "POT-Creation-Date: 2022-03-22 17:45-0400\n"
 "PO-Revision-Date: 2022-03-05 22:57+0000\n"
 "Last-Translator: X X, 2022\n"
@@ -471,20 +471,15 @@ msgid ""
 "name %s"
 msgstr "您下載的此版本的 ZIP 文件中，有一個檔案在%s 資料夾名為 %s. 將此檔案上傳到 admin 資料夾並命名為 %s"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %1$s is the name of the software (Podwerk), which is not translated. %2$s is a link.
 #: PodcastGenerator/admin/forgot.php:19
-msgid ""
-"If you no don't have this ZIP file anymore, don't worry! All versions of "
-"Podcast Generator ever released since 2.5 are available on the Podcast "
-"Generator Homepage."
+msgid "If you no longer have this ZIP file, download the same version again from the %1$s releases page: %2$s"
 msgstr ""
-"如果您遺失此 ZIP 檔案，請不要擔心！ Podcast Generator 從 2.5 以後發布的版本都可以在 Podcast Generator "
-"首頁上找到。"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/index.php:38
-msgid "Welcome to your Podcast Generator Admin Interface"
-msgstr "歡迎來到 Podcast Generator 管理界面"
+msgid "Welcome to your %s Admin Interface"
+msgstr "歡迎來到 %s 管理界面"
 
 #: PodcastGenerator/admin/login.php:24
 msgid "Login disabled for security reasons"
@@ -569,15 +564,10 @@ msgstr "Podcast 頻道詳細資訊"
 msgid "Change Podcast details"
 msgstr "更改Podcast頻道詳細資訊"
 
-#. # 'Podcast Generator' is a proper name.
-#: PodcastGenerator/admin/navbar.php:54
-msgid "Podcast Generator"
-msgstr "Podcast Generator"
-
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/navbar.php:58
-msgid "Change Podcast Generator Config"
-msgstr "更改 Podcast Generator 配置"
+msgid "Change %s Config"
+msgstr "更改 %s 配置"
 
 #: PodcastGenerator/admin/navbar.php:59 PodcastGenerator/admin/pg_users.php:71
 #: PodcastGenerator/admin/pg_users.php:85
@@ -601,16 +591,16 @@ msgstr "時間戳記"
 msgid "Season and episode number"
 msgstr "季數及集數"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:70
 #: PodcastGenerator/admin/pg_integrations.php:72
-msgid "Podcast Generator Configuration"
-msgstr "Podcast Generator 配置"
+msgid "%s Configuration"
+msgstr "%s 配置"
 
-#. # 'Podcast Generator' is a proper name.
+#. # %s is the name of the software (Podwerk), which is not translated.
 #: PodcastGenerator/admin/pg_config.php:85
-msgid "Change Podcast Generator Configuration"
-msgstr "更改 Podcast Generator 配置"
+msgid "Change %s Configuration"
+msgstr "更改 %s 配置"
 
 #: PodcastGenerator/admin/pg_config.php:87
 msgid "Enable Audio and Video Player"

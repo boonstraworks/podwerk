@@ -145,7 +145,7 @@ function backwards_3_1_to_3_2_9($absoluteurl)
 
 \$indexfile = " . configLiteral($config['indexfile']) . ";    // Path of the index file
 
-\$podcastPassword = " . configLiteral($config['podcastPassword']) . ";       // Password to protect the podcast generator webpages, this will NOT protect the audio or XML files. Leave blank to disable.
+\$podcastPassword = " . configLiteral($config['podcastPassword']) . ";       // Password to protect the Podwerk webpages, this will NOT protect the audio or XML files. Leave blank to disable.
 
 \$customtagsenabled = " . configLiteral($config['customtagsenabled']) . ";   // Advanced functionality for custom RSS tag input
 
