@@ -1,7 +1,8 @@
 # Changelog
 <!-- markdownlint-configure-file {"MD024": { "allow_different_nesting": true }} -->
 
-All notable changes to Podcast Generator will be documented in this file.
+All notable changes to Podwerk, and before that Podcast Generator, are
+documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -11,17 +12,26 @@ Versions prior to 3.2 are documented per their individual release notes.
 
 ## [3.2.10] - unreleased
 
-Maintenance release on top of 3.2.9, after the original project was
-archived. Drop-in update: existing installations, configs, logins and
-themes keep working.
+First release as **Podwerk**, the maintained continuation of Podcast
+Generator after the original project was archived in April 2026.
+Drop-in update for Podcast Generator 3.2.x (and 3.1): existing
+installations, configs, logins and themes keep working.
 
 ### Added
 
 * `tests/smoke.sh`: smoke test for a running installation (setup, login,
-  every admin page, CSRF and injection checks, episode upload, feed check).
+  every admin page, CSRF, injection and XSS checks, episode upload, feed
+  check).
+* CI: PHP syntax check and `composer audit` on every push.
 
 ### Changed
 
+* Renamed to Podwerk. The name lives in `$app_name` and is passed to
+  translatable strings as `%s`, so it is never translated; existing
+  translations were converted.
+* Feed `<generator>`, Podcast Index User-Agent, setup, admin and default
+  theme footer show Podwerk, with credit to Podcast Generator.
+* Composer package is now `boonstraworks/podwerk`.
 * Themes made for any 3.2.x release are offered for every 3.2.x release.
 * Upgrading from 3.2.9 only updates the version number in `config.php`.
 
@@ -48,6 +58,12 @@ themes keep working.
   episodes.
 * The admin dashboard no longer frames the original news page, which no
   longer exists.
+* Upgrading from 3.1 or 3.2.0 - 3.2.8 reset the feed language to English
+  when the first visit after the upgrade was a public page.
+* The password reset page loaded no includes, showed PHP warnings and was
+  never translated.
+* GitHub Actions workflow updated (the v2 actions no longer run); the
+  empty `media/` and `images/` folders are included in the package again.
 
 ### Security
 
@@ -66,6 +82,8 @@ themes keep working.
   episode descriptions go through an allowlist HTML sanitizer.
 * CVE-2023-53899 (blind SSRF through `shortdesc` on upload): text can no
   longer break out of the CDATA sections in episode files.
+* Reflected XSS without login: `feed.php?cat=` was copied unencoded into
+  the feed, so an injected XHTML `<script>` ran in the visitor's browser.
 
 ## [3.2.9] - 2022-11-03
 

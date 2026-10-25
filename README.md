@@ -1,37 +1,84 @@
-# Podcast Generator
+# Podwerk
 
-Podcast Generator (PG) is an open source Content Management System written in
-PHP and specifically designed for podcast publishing.
-It provides the user with the tools to easily manage all of the aspects related
-to the publication of a podcast, from the upload of episodes to its submission
-to [Podcast Index](https://podcastindex.org) and the iTunes store.
+Podwerk is an open source content management system for publishing a
+podcast, written in PHP. It needs no database: episodes, settings and
+categories are stored as files. You upload episodes, Podwerk builds the
+website and the RSS feed for Apple Podcasts, Spotify, Podcast Index and
+every other podcast app.
 
-Visit the **official website** for more information, documentation, demo and to
-download the latest stable release:
+Podwerk is the maintained continuation of
+[Podcast Generator](https://github.com/PodcastGenerator/PodcastGenerator),
+which its authors archived in April 2026. It is a **drop-in upgrade for
+Podcast Generator 3.2.x**: your configuration, episodes, logins and themes
+keep working.
 
-<http://podcastgenerator.net>
+## Why Podwerk
 
-## Download the latest release
+* **Security fixes** for Podcast Generator 3.2.9, including the published
+  CVE-2023-53899, CVE-2023-53919 and CVE-2023-53920, and several issues
+  found while taking over the code (see the [changelog](CHANGELOG.md)).
+* **Current PHP**: tested on PHP 8.5, no deprecation warnings.
+* **No known vulnerable dependencies**: `composer audit` is clean.
+* **Maintained**: security and PHP compatibility updates for the 3.2
+  series.
 
-Download the latest stable release on the official website:
+## Requirements
 
-<http://podcastgenerator.net/download>
+* PHP 7.0 or newer (tested on PHP 8.5) with the `gettext` and `simplexml`
+  extensions; `curl` for Podcast Index and WebSub, `dom` for cleaning HTML
+  in the freebox and episode descriptions
+* Apache or nginx (see [INSTALL.nginx.md](INSTALL.nginx.md))
+
+## Install
+
+1. Download the latest release from the
+   [releases page](https://github.com/boonstraworks/podwerk/releases).
+2. Upload the contents of the `PodcastGenerator/` folder to your web space.
+3. Open the address in your browser and follow the three setup steps.
+
+More options, including a full Ubuntu server setup, are in
+[INSTALL.md](INSTALL.md).
+
+## Upgrade from Podcast Generator
+
+1. Make a backup of your whole installation.
+2. Delete the `vendor/` folder of your installation. Podwerk ships its own
+   and no longer needs the old libraries.
+3. Upload the contents of the `PodcastGenerator/` folder of the Podwerk
+   release over your installation and overwrite all files.
+4. Open your website once. Podwerk updates the version number in
+   `config.php` and you can log in as before.
+
+Upgrading from Podcast Generator 3.1 or an early 3.2 release works the same
+way; the existing upgrade assistant converts the configuration.
+
+## Testing
+
+`tests/smoke.sh` checks a running installation from the outside: setup,
+login, every admin page, CSRF and injection protection, an episode upload
+and the generated feed.
+
+```bash
+tests/smoke.sh http://localhost/podwerk/PodcastGenerator admin secret-password
+```
+
+Run it against a throwaway installation: it changes settings and uploads a
+test episode.
 
 ## Contribute
 
-Everyone is most welcome to contribute code, test, reviews,
-[translations](https://www.transifex.com/podcast-generator/podcast-generator/)
-and other stuff.
-Also feature requests are welcome.
-For this please open an issue on GitHub.
+Bug reports, fixes and translations are welcome. See
+[CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately,
+as described in [SECURITY.md](SECURITY.md).
 
-## Demo
+## Credits and license
 
-A fully-functional live demo of Podcast generator is available at:
+Podwerk is free software under the [GNU GPL 3.0](LICENSE).
 
-<http://podcastgenerator.net/demo>
-
-## Copyright
+It is based on Podcast Generator, created by Alberto Betella and developed by
+Emil Engler, Chris Charabaruk and many contributors since 2006. Podwerk is
+maintained by [BoonstraWorks](https://boonstraworks.nl) and is not
+affiliated with or endorsed by the original authors.
 
 This repository includes third-party software including
 getID3 by James Heinrich,

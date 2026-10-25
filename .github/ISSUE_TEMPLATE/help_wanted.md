@@ -9,13 +9,13 @@ assignees: ''
 <!-- Please use this for bugs only (If something doesn't work as expected)! If you have a question, use "Help Wanted" -->
 <!-- Please fill out all informations below, if you don't know a value, leave it blank -->
 **System Information**
-Podcast Generator Version: 
+Podwerk version (or Podcast Generator version): 
 Webserver: 
 PHP Version:
 
-**Podcast Generator Config**
-<!-- PLEASE POST YOUR CONFIG HERE: https://podcastgenerator.github.io/tools/secure_config.html 
- and then post the output down below. Otherwise you could leak sensitive data -->
+**Configuration (config.php)**
+<!-- Post your config.php below, but REMOVE the values of users_json, installationKey, podcastPassword, pi_api_key and pi_api_secret first.
+ Otherwise you leak passwords and keys. -->
 ```
 INSERT THE **CENSORED** CONFIG HERE
 ``` 

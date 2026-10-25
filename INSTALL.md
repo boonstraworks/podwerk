@@ -1,28 +1,28 @@
 # INSTALL
 
-There are 3 different options being presented for PodcastGenerator installation
+There are 3 different options being presented for Podwerk installation
 The below options are only beginning.
 
 ## Install from scratch - Basic
 
-1. Download the latest version of Podcast Generator;
+1. Download the latest version of Podwerk;
 2. Unzip the zip package containing the script;
 3. Upload the resulting files and folders to your web server;
 4. Point your web browser to the URL corresponding to the location where
-Podcast Generator files were uploaded (e.g.
+Podwerk files were uploaded (e.g.
 [http://mypodcastsite.com/podcastgen](http://mypodcastsite.com/podcastgen)).
 You will be redirected automatically to the 3-step setup wizard;
-5. Log-in into Podcast Generator administration area and start publishing your
+5. Log-in into Podwerk administration area and start publishing your
 podcast.
 
-## Upgrade from 2.7
+## Upgrade from Podcast Generator 2.7
 
-Caution: MAKE A BACKUP OF YOUR ENTIRE PODCAST GENERATOR FOLDER BEFORE UPGRADING!!!!!
+Caution: MAKE A BACKUP OF YOUR ENTIRE INSTALLATION FOLDER BEFORE UPGRADING!!!!!
 
 1. Download the latest version
 2. Upload it to your web server, allow to overwrite files.
 3. Point your web browser to the URL corresponding to the location where
-Podcast Generator files were uploaded (e.g.
+Podwerk files were uploaded (e.g.
 [http://mypodcastsite.com/podcastgen](http://mypodcastsite.com/podcastgen)).
 You will be redirected to a password converter;
 4. Enjoy!
@@ -30,7 +30,7 @@ You will be redirected to a password converter;
 ## Install from scratch - Detailed
 
 *******
-Install Podcast Generator on Ubuntu 22.04
+Install Podwerk on Ubuntu 22.04
 
 Please read this through entirely before using.
 [Issues 272](https://github.com/PodcastGenerator/PodcastGenerator/issues/272)
@@ -142,16 +142,16 @@ further enhancements and security considerations.
     sudo systemctl restart apache2
     ```
 
-### Install Podcast Generator
+### Install Podwerk
 
 The next steps assume that you will be using the default html folder provided
 by the apache install and no other virtual hosts are present.
 
-1. Set VERSION for PodcastGenerator and change directory (cd) to the folder
-where PodcastGenerator will be installed:
+1. Set VERSION for Podwerk and change directory (cd) to the folder
+where Podwerk will be installed:
 
     ```bash
-    export VERSION='3.2.6'
+    export VERSION='3.2.10'
     cd /var/www/
     ```
 
@@ -165,26 +165,26 @@ where PodcastGenerator will be installed:
 
     ```bash
     sudo wget \
-      https://github.com/PodcastGenerator/PodcastGenerator/releases/download/v${VERSION}/PodcastGenerator-v${VERSION}.zip
+      https://github.com/boonstraworks/podwerk/releases/download/v${VERSION}/Podwerk-v${VERSION}.zip
     ```
 
-4. Unzip PodcastGenerator: Replace with current release version
+4. Unzip Podwerk: Replace with current release version
 
     ```bash
-    sudo unzip PodcastGenerator-v${VERSION}.zip -d PodcastGenerator-v${VERSION}
+    sudo unzip Podwerk-v${VERSION}.zip -d Podwerk-v${VERSION}
     ```
 
-5. Move PodcastGenerator from the unzipped directory PodcastGenerator-${VERSION}
+5. Move the PodcastGenerator folder from the unzipped directory Podwerk-v${VERSION}
 to var/www/html:
 
     ```bash
-    sudo mv /var/www/PodcastGenerator-v${VERSION}/PodcastGenerator/* /var/www/html/
+    sudo mv /var/www/Podwerk-v${VERSION}/PodcastGenerator/* /var/www/html/
     ```
 
 6. Cleanup by removing unneccessary files:
 
     ```bash
-    sudo rm -rf PodcastGenerator-v${VERSION}/ PodcastGenerator-v${VERSION}.zip
+    sudo rm -rf Podwerk-v${VERSION}/ Podwerk-v${VERSION}.zip
     ```
 
 7. Change ownership of the installation files: (NOTE, this is for Ubuntu.
@@ -208,22 +208,22 @@ opperating systems.)
 
     ```bash
     sudo snap install certbot --classic
-    sudo certbot --nginx -d domain.of.your.podcastgenerator
+    sudo certbot --nginx -d domain.of.your.podcast
     ```
 
 9. Navigate to the IP, domain or local host address of the machine in a
 web browser:
 
-    `ip.address.in.browser` or `domain.of.your.podcastgenerator`
+    `ip.address.in.browser` or `domain.of.your.podcast`
 
 10. Select "Begin Installation"
 
 ## ALL DONE
 
-Enjoy your installation of Podcast Generator!
+Enjoy your installation of Podwerk!
 
 Consider spreading the word about the software or
-[contribute back to the project](https://github.com/PodcastGenerator/PodcastGenerator).
+[contribute back to the project](https://github.com/boonstraworks/podwerk).
 
 If your self-hosted instance gets to be too much to handle or if the
 installation/maintainance/security seems too intimidating, please consider using

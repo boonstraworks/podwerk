@@ -1,46 +1,41 @@
-# Contributing to Podcast Generator
+# Contributing to Podwerk
 
-Hello 👋 and thanks for the interest to contribute code to Podcast Generator.
-There are several ways of contributing to Podcast Generator.
-These are:
+Hello 👋 and thanks for your interest in contributing to Podwerk, the
+maintained continuation of Podcast Generator.
+You can contribute by:
 
-* Write code
-* Report and search for bugs and security issues
-* Translate
-* Request features
+* Writing code
+* Reporting and searching for bugs and security issues
+* Translating
+* Requesting features
 
 ## Write code
 
-If you want to write code we have no real formal guidelines.
-You will be highly assisted when creating the pull request.
-However there are some things you should keep in mind.
-These are especially:
+There are no formal guidelines, but please keep in mind:
 
 * Atomic commits and pull requests
 * Keep the diffs small
-* Keep backwards compatibility in mind when writing the code
-* Keep string translation in mind
-
-If you have no ideas on what to work on, feel free to go to the GitHub issue
-tracker and work on the milestone for the next version.
-Those issues always have high-priority.
-Otherwise feel free to fix a bug or implement a feature request.
+* Keep backwards compatibility in mind: existing Podcast Generator 3.2
+  installations, configs and themes must keep working
+* Keep string translation in mind: wrap text in `_()` and pass the software
+  name in as `%s` (`$app_name`), never write it in a translatable string
+* Run `tests/smoke.sh` against a test installation before opening a pull
+  request
 
 ## Report and search for bugs and security issues
 
-If you found a bug, please report it on GitHub.
-Please make it as easy as possible for others to reproduce that bug.
-If you found a security issue PLEASE DO NOT open an issue on GitHub.
+If you found a bug, please report it on GitHub and make it as easy as
+possible to reproduce.
+If you found a security issue, PLEASE DO NOT open an issue on GitHub.
 Instead have a look at [SECURITY.md](SECURITY.md).
 
 ## Translate
 
-If you speak a language that is not English, please head over to
-[Transifex](https://www.transifex.com/podcast-generator/podcast-generator/) and
-help the effort to translate Podcast Generator into your language.
+Translations are the `.po` files in
+`PodcastGenerator/components/locale/<language>/LC_MESSAGES/`. Edit one with
+a tool like [Poedit](https://poedit.net) and open a pull request. For a new
+language, start from `PodcastGenerator/components/locale/messages.pot`.
 
 ## Request features
 
-We are open to any kind of features 😃
-
-PGP signed commits are accepted
+Feature requests are welcome as GitHub issues 😃

@@ -1,6 +1,6 @@
-name: Build and package Podcast Generator
+name: Build and package Podwerk
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,45 +8,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+
+    - name: Check PHP syntax
+      run: find PodcastGenerator -path PodcastGenerator/vendor -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict --no-check-version
       working-directory: PodcastGenerator
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: PodcastGenerator/vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
-    # - name: Install dependencies
-    #   run: composer install --prefer-dist --no-progress
-    #   working-directory: PodcastGenerator
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
-
-    - name: Clear out dev dependencies
+    - name: Install runtime dependencies only
       run: composer install --prefer-dist --no-dev --no-progress --optimize-autoloader
       working-directory: PodcastGenerator
 
-    - name: Compile message catalogs
-      uses: whtsky/msgfmt-action@6b2181f051b002182d01a1e1f1aff216230c5a4d
+    - name: Check dependencies for known vulnerabilities
+      run: composer audit --no-dev
+      working-directory: PodcastGenerator
 
-    # Take advantage of the fact that GitHub will zip everything up in an
-    # individual upload-artifact action. This means we don't have to rely on
-    # another action to build the zip package.
+    - name: Compile message catalogs
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y -q gettext
+        for po in PodcastGenerator/components/locale/*/LC_MESSAGES/messages.po; do
+          msgfmt --check -o "${po%.po}.mo" "$po"
+        done
+
+    # GitHub zips everything in an upload-artifact action, so no other action
+    # is needed to build the package. Hidden files are included because the
+    # empty media/ and images/ folders only contain a .gitignore.
     - name: Upload build
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: PodcastGenerator
+        name: Podwerk
+        include-hidden-files: true
         path: |
           *
           **/*
