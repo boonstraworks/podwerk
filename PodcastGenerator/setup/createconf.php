@@ -10,17 +10,8 @@
 ############################################################
 session_start();
 require_once '../core/misc/configsystem.php';
-
-function randomString($length = 8)
-{
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
+// randomString(), and getmime() for the feed generated at the end of setup
+require_once '../core/misc/functions.php';
 
 function createconf($username, $password)
 {

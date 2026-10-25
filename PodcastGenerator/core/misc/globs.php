@@ -9,5 +9,7 @@
 # This is Free Software released under the GNU/GPL License.
 ############################################################
 $version = '3.2.10';
-$news_url = 'https://podcastgenerator.github.io/news/index.html';
+// The original news page (podcastgenerator.github.io) no longer exists.
+// Leave empty to hide the news frame in the admin dashboard.
+$news_url = '';
 $isdev = false;
