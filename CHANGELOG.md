@@ -64,6 +64,8 @@ installations, configs, logins and themes keep working.
   never translated.
 * GitHub Actions workflow updated (the v2 actions no longer run); the
   empty `media/` and `images/` folders are included in the package again.
+* Changing a user's password to an empty one locked that user out; it is
+  now rejected.
 
 ### Security
 
@@ -84,6 +86,8 @@ installations, configs, logins and themes keep working.
   longer break out of the CDATA sections in episode files.
 * Reflected XSS without login: `feed.php?cat=` was copied unencoded into
   the feed, so an injected XHTML `<script>` ran in the visitor's browser.
+* The user management page put the username from the URL into HTML
+  attributes with only `strip_tags()`, which does not stop quotes.
 
 ## [3.2.9] - 2022-11-03
 

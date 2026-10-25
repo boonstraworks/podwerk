@@ -20,7 +20,8 @@ if(isset($_GET['reset'])) {
     }
     // No errors, continue
     $users[$_POST['username']] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $ret = updateConfig('../config.php', 'users_json', str_replace('"', '\"', json_encode($users)));
+    // updateConfig() escapes the value itself
+    $ret = updateConfig('../config.php', 'users_json', json_encode($users));
     if(!$ret) {
         $error = 'Unknown error. Be sure the file the users.php file is writable';
         goto error;
@@ -37,7 +38,7 @@ error:
 <html lang="en">
 
 <head>
-    <title>Podcast Generator Password Resetter</title>
+    <title>Podwerk Password Resetter</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../core/bootstrap/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +47,7 @@ error:
 
 <body>
     <div class="container">
-        <h1>Podcast Generator Password Resetter</h1>
+        <h1>Podwerk Password Resetter</h1>
         <b style="color: red;">
             Warning: This file is extremely dangerous! Delete it instantly after you no longer need it! It will try to self destruct it once it successfully resetted a password
             but you should still check if the file exists and delete it in such a case! Otherwise ANYONE can reset your password easily and get access to your Podcast.

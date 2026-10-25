@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Smoke test for a running Podcast Generator installation.
+# Smoke test for a running Podwerk (or Podcast Generator 3.2) installation.
 #
 # Usage: tests/smoke.sh <base-url> <admin-user> <admin-password>
 #
 # <base-url> points at the PodcastGenerator directory, for example
-# http://localhost/podcastgen/PodcastGenerator. On a fresh copy (no
+# http://localhost/podwerk/PodcastGenerator. On a fresh copy (no
 # config.php yet) the setup is run first with the given credentials.
 # Run it against a throwaway installation: it changes settings and uploads
 # an episode (media/<date>_smoke.mp3). PHP should show all errors (error_reporting = -1), so that
@@ -96,6 +96,35 @@ for target in "pg_integrations.php?edit=1" "pg_config.php?edit=1" "podcast_detai
         --data-urlencode 'podcast_title=csrf' >/dev/null
     if grep -q 'Potential CSRF attack' "$OUT"; then ok "CSRF blocked: $target"; else fail "CSRF not blocked: $target"; fi
 done
+
+# --- user management: users_json must stay valid --------------------------
+# login_as <user> <password>: logs in with a separate cookie jar, prints the HTTP status
+login_as() {
+    local jar="$WORK/cookies-user"
+    rm -f "$jar"
+    curl -s -b "$jar" -c "$jar" -o /dev/null "$BASE/admin/login.php"
+    curl -s -b "$jar" -c "$jar" -o /dev/null -w '%{http_code}' \
+        --data-urlencode "username=$1" --data-urlencode "password=$2" "$BASE/admin/login.php?login=1"
+}
+# users_action <query> [curl args...]: posts to pg_users.php with a fresh token
+users_action() {
+    local query="$1"
+    shift
+    fetch "$BASE/admin/pg_users.php" >/dev/null
+    local tok
+    tok=$(token)
+    fetch "$BASE/admin/pg_users.php?$query" --data-urlencode "token=$tok" "$@" >/dev/null
+}
+users_action "create=1" --data-urlencode "username=smoke'user" \
+    --data-urlencode 'password=first-pass' --data-urlencode 'password2=first-pass'
+if [ "$(login_as "smoke'user" first-pass)" = 302 ]; then ok "new user can log in"; else fail "new user cannot log in"; fi
+users_action "change=smoke%27user" --data-urlencode 'password=second-pass' --data-urlencode 'password2=second-pass'
+if [ "$(login_as "smoke'user" second-pass)" = 302 ]; then ok "changed password works"; else fail "changed password does not work"; fi
+users_action "change=smoke%27user" --data-urlencode 'password=' --data-urlencode 'password2='
+if [ "$(login_as "smoke'user" second-pass)" = 302 ]; then ok "empty password rejected"; else fail "empty password locked the user out"; fi
+users_action "delete=smoke%27user"
+if [ "$(login_as "smoke'user" second-pass)" != 302 ]; then ok "deleted user cannot log in"; else fail "deleted user can still log in"; fi
+if [ "$(login_as "$ADMIN_USER" "$ADMIN_PASS")" = 302 ]; then ok "admin login after user changes"; else fail "admin login broken after user changes"; exit 1; fi
 
 # --- settings with quotes, backslashes and code ----------------------------
 # save_details <title> <subtitle> <description> [extra curl args...]

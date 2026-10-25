@@ -17,6 +17,11 @@ if (isset($_GET['change'])) {
 
     // Change password case
 
+    // An empty password would lock the user out (login requires one)
+    if (empty($_POST['password'])) {
+        $error = _('Missing fields');
+        goto error;
+    }
     if (!changeUserPassword($_GET['change'], $_POST['password'])) {
         $error = _('Error while changing password');
         goto error;
@@ -118,10 +123,10 @@ if (isset($_GET['change'])) {
                         $error = _('User does not exist');
                         goto error;
                 } ?>
-                <form action="pg_users.php?change=<?= strip_tags($_GET['username']) ?>" method="POST">
+                <form action="pg_users.php?change=<?= htmlspecialchars(urlencode($_GET['username'])) ?>" method="POST">
                     <label for="username_ch"><?= _('Username') ?>:</label><br>
                     <input type="text" id="username_ch" name="username"
-                           value="<?= strip_tags($_GET['username']); ?>" disabled>
+                           value="<?= htmlspecialchars($_GET['username']); ?>" disabled>
                     <small><?= _('You cannot edit usernames') ?></small>
                     <br>
 
@@ -140,7 +145,7 @@ if (isset($_GET['change'])) {
                 <?php if ($_GET['username'] == $_SESSION['username']) { /* Don't permit to delete the logged in user */ ?>
                     <p style="color: red;"><?= _('You cannot delete yourself') ?></p>
                 <?php } else { ?>
-                    <form action="pg_users.php?delete=<?= strip_tags($_GET['username']) ?>" method="POST">
+                    <form action="pg_users.php?delete=<?= htmlspecialchars(urlencode($_GET['username'])) ?>" method="POST">
                         <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
                         <input class="btn btn-danger" type="submit" value="<?= _('Delete') ?>">
                     </form>

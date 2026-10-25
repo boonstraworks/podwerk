@@ -40,7 +40,7 @@ function addUser($username, $password_plain)
     return updateConfig(
         $config['absoluteurl'] . 'config.php',
         'users_json',
-        str_replace('"', '\"', json_encode($users))
+        json_encode($users)
     );
 }
 
@@ -52,7 +52,7 @@ function deleteUser($username)
     return updateConfig(
         $config['absoluteurl'] . 'config.php',
         'users_json',
-        str_replace('"', '\"', json_encode($users))
+        json_encode($users)
     );
 }
 
@@ -68,7 +68,7 @@ function changeUserPassword($username, $new_password_plain)
     return updateConfig(
         $config['absoluteurl'] . 'config.php',
         'users_json',
-        str_replace('"', '\"', json_encode($users))
+        json_encode($users)
     );
 }
 
