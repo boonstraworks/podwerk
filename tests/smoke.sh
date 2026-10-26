@@ -154,10 +154,13 @@ save_details "Smoke test" "Subtitle" "line one
 TITLE="Steven's \"test\" podcast; AC/DC & co"
 save_details "$TITLE" "Subtitle" "Description"
 fetch "$BASE/admin/podcast_details.php" >/dev/null
-if grep -qF "value=\"Steven&#039;s &quot;test&quot; podcast; AC/DC &amp; co\"" "$OUT"; then
+# Before PHP 8.1 htmlspecialchars() leaves the apostrophe as is by default,
+# which is fine inside a double-quoted attribute
+if grep -qE "value=\"Steven(&#039;|')s &quot;test&quot; podcast; AC/DC &amp; co\"" "$OUT"; then
     ok "title with quotes saved intact"
 else
     fail "title with quotes not saved intact"
+    grep -o 'id="podcast_title"[^>]*' "$OUT" | head -1
 fi
 # 4. stored XSS through the podcast title (CVE-2023-53920)
 save_details '<img src=x onerror=alert(53920)>' "Subtitle" "Description"
