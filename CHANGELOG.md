@@ -10,7 +10,7 @@ Versions prior to 3.2 are documented per their individual release notes.
 
 ## [Unreleased]
 
-## [3.2.10] - unreleased
+## [3.2.10] - 2026-10-27
 
 First release as **Podwerk**, the maintained continuation of Podcast
 Generator after the original project was archived in April 2026.
@@ -27,7 +27,15 @@ installations, configs, logins and themes keep working.
 * `tests/smoke.sh`: smoke test for a running installation (setup, login,
   every admin page, CSRF, injection and XSS checks, episode upload, feed
   check).
-* CI: PHP syntax check and `composer audit` on every push.
+* `tests/upgrade.sh`: installs the official 3.2.9 package with content,
+  copies the new package over it and checks that settings, users, theme,
+  media files and feed items (GUIDs, enclosure URLs) stay the same.
+* CI: PHP syntax check and `composer audit` on every push; upgrade and
+  smoke tests on PHP 7.0 to 8.5.
+* Release workflow: a version tag builds the release zip (same layout as
+  the Podcast Generator zips), runs the upgrade test on it and publishes it.
+* [Upgrade guide](doc/update.md) with requirements, file changes and test
+  details.
 
 ### Changed
 
@@ -59,6 +67,11 @@ installations, configs, logins and themes keep working.
   the RSS feed.
 * Undefined `customtags` warning when uploading or editing an episode.
 * "session already active" notice on the first visit after an upgrade.
+* The first request after an upgrade within 3.2.x answered only "Please
+  refresh" and logged everyone out; it now updates the version number and
+  serves the page as usual.
+* The theme switcher showed PHP warnings for themes without a description
+  or version in `theme.json`.
 * Setup crashed (`getmime()` undefined) when `media/` already contained
   episodes.
 * The admin dashboard no longer frames the original news page, which no

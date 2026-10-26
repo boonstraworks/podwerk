@@ -3,20 +3,22 @@
 #
 # Usage: tests/upgrade.sh [php-binary] [port]
 #
-# Builds a Podcast Generator 3.2.9 installation from the v3.2.9 tag in a
-# temporary directory and fills it through its own admin pages: two users,
-# a custom theme made for 3.2.9, a category, settings with quotes and
-# accents, a freebox text and two episodes. Then the release package of
-# REF (default HEAD: git archive + composer install --no-dev) is copied over
-# it the way Installatron and a manual FTP upgrade do: files are added and
+# Installs the official Podcast Generator 3.2.9 package (the release zip,
+# checksum pinned; OLD_ZIP may point to a local copy) in a temporary
+# directory and fills it through its own admin pages: two users, a custom
+# theme made for 3.2.9, a category, settings with quotes and accents, a
+# freebox text and two episodes. Then the new package is copied over it the
+# way Installatron and a manual FTP upgrade do: files are added and
 # overwritten, nothing is removed, config.php and the content stay.
+# The new package is NEW_ZIP (a built release zip) or else the release
+# package of REF (default HEAD: git archive + composer install --no-dev).
 #
 # After the upgrade nothing may have changed for visitors, admins or
 # subscribers: same settings and users, same theme, same media files, same
 # feed URL with the same items (GUIDs, enclosure URLs), also after the feed
 # is regenerated. Every page must load without PHP warnings or deprecations.
 #
-# Needs bash, git, curl, composer and the php CLI. Starts PHP's built-in web
+# Needs bash, git, curl, unzip, sha256sum, composer and the php CLI. Starts PHP's built-in web
 # server on 127.0.0.1:<port> (default 8765).
 
 set -u
@@ -131,14 +133,30 @@ feed_items() {
             (string) $i->category]), "\n";' <"$OUT"
 }
 content_hashes() {
-    (cd "$SITE" && find media images categories.xml freebox-content.txt themes/mytheme -type f -print0 \
+    # The placeholder .gitignore files ship with every release and may change
+    (cd "$SITE" && find media images categories.xml freebox-content.txt themes/mytheme -type f ! -name .gitignore -print0 \
         | sort -z | xargs -0 sha256sum)
 }
 
 # --- 1. Podcast Generator 3.2.9 with content -----------------------------
-echo "Building 3.2.9 and the release package of $REF ($("$PHP" -r 'echo PHP_VERSION;'))"
-build v3.2.9 "$WORK/site"
-build "$REF" "$WORK/release"
+echo "Upgrade test on PHP $("$PHP" -r 'echo PHP_VERSION;')"
+OLD_ZIP_URL=https://github.com/PodcastGenerator/PodcastGenerator/releases/download/v3.2.9/PodcastGenerator-3.2.9.zip
+OLD_ZIP_SHA256=f2962195b51071ef910455f12b8aa96f30d42925b58f448d3e81cf25e5afb17a
+if [ -z "${OLD_ZIP:-}" ]; then
+    OLD_ZIP="$WORK/PodcastGenerator-3.2.9.zip"
+    curl -sfL -o "$OLD_ZIP" "$OLD_ZIP_URL" || die "download $OLD_ZIP_URL"
+fi
+[ "$(sha256sum <"$OLD_ZIP" | cut -d' ' -f1)" = "$OLD_ZIP_SHA256" ] || die "checksum of the 3.2.9 zip"
+mkdir -p "$WORK/site"
+unzip -q "$OLD_ZIP" -d "$WORK/site" || die "unzip 3.2.9"
+if [ -n "${NEW_ZIP:-}" ]; then
+    echo "New package: $NEW_ZIP"
+    mkdir -p "$WORK/release"
+    unzip -q "$NEW_ZIP" -d "$WORK/release" || die "unzip $NEW_ZIP"
+else
+    echo "New package: release package of $REF"
+    build "$REF" "$WORK/release"
+fi
 
 # A theme someone made for 3.2.9, with a marker to recognise it
 cp -r "$SITE/themes/default" "$SITE/themes/mytheme"
@@ -260,6 +278,7 @@ if content_hashes | cmp -s - "$WORK/hashes-before"; then
     ok "media, cover, categories, freebox and theme files untouched"
 else
     fail "content files changed"
+    content_hashes | diff "$WORK/hashes-before" - | head -6
 fi
 
 echo

@@ -3,6 +3,38 @@ name: Build and package Podwerk
 on: [push, pull_request]
 
 jobs:
+  test:
+    name: Upgrade and smoke test (PHP ${{ matrix.php }})
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.0', '7.1', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: gettext, simplexml, curl
+        tools: composer
+
+    # The official 3.2.9 package needs PHP 7.1 or newer
+    - name: Upgrade from Podcast Generator 3.2.9
+      if: matrix.php != '7.0'
+      run: bash tests/upgrade.sh php 8765
+
+    - name: Smoke test on a fresh installation
+      run: |
+        cp -r PodcastGenerator /tmp/fresh
+        (cd /tmp/fresh && composer install --no-dev --no-interaction --no-progress)
+        php -d display_errors=1 -d error_reporting=-1 -S 127.0.0.1:8766 -t /tmp/fresh >/tmp/server.log 2>&1 &
+        sleep 1
+        bash tests/smoke.sh http://127.0.0.1:8766 admin 'Smoke-test-1'
+
   build:
 
     runs-on: ubuntu-latest

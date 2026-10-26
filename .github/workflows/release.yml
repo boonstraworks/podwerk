@@ -1,0 +1,70 @@
+name: Release
+
+# Pushing a tag like v3.2.10 builds the release package, runs the upgrade
+# test against that exact package and publishes it as a GitHub release.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: gettext, simplexml, curl
+        tools: composer
+
+    - name: Check version numbers
+      run: |
+        V="${GITHUB_REF_NAME#v}"
+        grep -q "^\$version = '$V';" PodcastGenerator/core/misc/globs.php
+        grep -q "\"version\": \"$V\"" PodcastGenerator/composer.json
+        grep -q "^## \[$V\] - [0-9]" CHANGELOG.md
+
+    # Same layout as the Podcast Generator release zips: the documentation in
+    # the root, the application in PodcastGenerator/ with vendor/ and the
+    # compiled translations included
+    - name: Build package
+      run: |
+        V="${GITHUB_REF_NAME#v}"
+        sudo apt-get update -q
+        sudo apt-get install -y -q gettext
+        mkdir -p build/pkg
+        git archive HEAD | tar -x -C build/pkg
+        cd build/pkg
+        rm -rf .github tests docs
+        (cd PodcastGenerator && composer install --no-dev --prefer-dist --no-progress --optimize-autoloader)
+        for po in PodcastGenerator/components/locale/*/LC_MESSAGES/messages.po; do
+          msgfmt --check -o "${po%.po}.mo" "$po"
+        done
+        zip -qr "../Podwerk-$V.zip" .
+        cd ..
+        sha256sum "Podwerk-$V.zip" >"Podwerk-$V.zip.sha256"
+
+    - name: Upgrade test with the built package
+      run: NEW_ZIP="build/Podwerk-${GITHUB_REF_NAME#v}.zip" bash tests/upgrade.sh php 8765
+
+    - name: Release notes from the changelog
+      run: |
+        V="${GITHUB_REF_NAME#v}"
+        awk -v v="$V" 'index($0, "## [" v "]") == 1 { on = 1; next } on && /^## \[/ { exit } on' \
+          CHANGELOG.md >build/notes.md
+        test -s build/notes.md
+
+    - name: Publish release
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        V="${GITHUB_REF_NAME#v}"
+        gh release create "$GITHUB_REF_NAME" "build/Podwerk-$V.zip" "build/Podwerk-$V.zip.sha256" \
+          --title "Podwerk $V" --notes-file build/notes.md

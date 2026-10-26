@@ -53,21 +53,25 @@ More options, including a full Ubuntu server setup, are in
 ## Upgrade from Podcast Generator
 
 1. Make a backup of your whole installation.
-2. Delete the `vendor/` folder of your installation. Podwerk ships its own
-   and no longer needs the old libraries.
-3. Upload the contents of the `PodcastGenerator/` folder of the Podwerk
+2. Upload the contents of the `PodcastGenerator/` folder of the Podwerk
    release over your installation and overwrite all files.
-4. Open your website once. Podwerk updates the version number in
-   `config.php` and you can log in as before.
 
-Upgrading from Podcast Generator 3.1 or an early 3.2 release works the same
-way; the existing upgrade assistant converts the configuration.
+That is all for 3.2.9: settings, users, episodes, the feed URL and your
+theme stay as they are, and the first request updates the version number
+in `config.php`. Upgrading from Podcast Generator 3.1 or an early 3.2
+release works the same way; the existing upgrade assistant converts the
+configuration. Details, requirements and how it is tested:
+[doc/update.md](doc/update.md).
 
 ## Testing
 
 `tests/smoke.sh` checks a running installation from the outside: setup,
 login, every admin page, CSRF and injection protection, an episode upload
 and the generated feed.
+
+`tests/upgrade.sh` installs the official Podcast Generator 3.2.9 package
+with content, copies Podwerk over it and checks that settings, users,
+theme, media and feed items stay the same.
 
 ```bash
 tests/smoke.sh http://localhost/podwerk/PodcastGenerator admin secret-password
