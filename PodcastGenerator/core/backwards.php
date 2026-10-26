@@ -11,15 +11,11 @@
 
 function backwards_3_1_to_3_2_9($absoluteurl)
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    session_destroy();
     global $config;
     global $version;
 
     // 3.2.9 and later 3.2.x releases share the same config format, so only
-    // the version number has to be updated
+    // the version number has to be updated; visitors and admins stay logged in
     if (
         version_compare($config['podcastgen_version'], '3.2.9', '>=')
         && version_compare($config['podcastgen_version'], $version, '<')
@@ -27,6 +23,11 @@ function backwards_3_1_to_3_2_9($absoluteurl)
         updateConfig($absoluteurl . 'config.php', 'podcastgen_version', $version);
         return;
     }
+
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    session_destroy();
 
     // Quit if version is not 3.1.x or 3.2
     if (

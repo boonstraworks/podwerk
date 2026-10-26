@@ -18,7 +18,11 @@ if ($config['podcastgen_version'] != $version) {
     // Backwards compatibility
     include 'backwards.php';
     backwards_3_1_to_3_2_9($config['absoluteurl']);
-    die("Please refresh");
+    // A version bump within 3.2.x needs no reload: serve this request as usual
+    $config = getConfig('config.php');
+    if ($config['podcastgen_version'] != $version) {
+        die("Please refresh");
+    }
 }
 
 include 'episodes.php';

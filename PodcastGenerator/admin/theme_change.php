@@ -87,10 +87,10 @@ if (isset($_GET['change'])) {
                             <img src="../<?= $themes[$i]->path ?>preview.png" class="card-img-top">
                             <div class="card-body">
                                 <h3><?= htmlspecialchars($themes[$i]->json->name) ?></h3>
-                                <p>Description: <?= htmlspecialchars($themes[$i]->json->description) ?></p>
-                                <p>Author: <?= htmlspecialchars($themes[$i]->json->author) ?></p>
-                                <p>Theme Version: <?= htmlspecialchars($themes[$i]->json->version) ?></p>
-                                <p>Credits: <?= htmlspecialchars($themes[$i]->json->credits) ?></p>
+                                <p>Description: <?= htmlspecialchars($themes[$i]->json->description ?? '') ?></p>
+                                <p>Author: <?= htmlspecialchars($themes[$i]->json->author ?? '') ?></p>
+                                <p>Theme Version: <?= htmlspecialchars($themes[$i]->json->version ?? '') ?></p>
+                                <p>Credits: <?= htmlspecialchars($themes[$i]->json->credits ?? '') ?></p>
                                 <hr>
                                 <?php if ($themes[$i]->path == htmlspecialchars($config['theme_path'])) { ?>
                                     <small><?= _('This theme is currently in use') ?></small>

@@ -1,5 +1,7 @@
 {
     "name": "Podwerk",
+    "description": "Cover art first, episodes as a playlist with inline play, dark mode",
+    "version": "3.2.10",
     "pg_versions": ["3.2.9", "3.2.10"],
     "author": "BoonstraWorks",
     "credits": "Bricolage Grotesque & Hanken Grotesk (SIL Open Font License)"
